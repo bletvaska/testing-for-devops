@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 3804
+Connection: keep-alive
+access-control-allow-headers: X-Parse-Master-Key, X-Parse-REST-API-Key, X-Parse-Javascript-Key, X-Parse-Application-Id, X-Parse-Client-Version, X-Parse-Session-Token, X-Requested-With, X-Parse-Revocable-Session, Content-Type, X-CSRF-Token
+access-control-allow-methods: GET,PUT,POST,DELETE,OPTIONS
+access-control-allow-origin: *
+content-encoding: gzip
+date: Thu, 05 May 2022 12:45:04 GMT
+etag: W/"4471-bCgxcO2PzOfdKBg02VgzfSgOWkg"
+server: nginx/1.10.1
+vary: Accept-Encoding
+x-backend-server: shared274.back4app.com
+x-powered-by: Express
+x-shared-version: 2.7.4
+X-Cache: Miss from cloudfront
+Via: 1.1 8fc54d3acff9539327f4d7a6bf40a31e.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop: VIE50-P1
+X-Amz-Cf-Id: graqzq9eloV1JAtaZAMzqxmivCrYRu15TX5Eb4C_0ZT3XutB645anQ==
