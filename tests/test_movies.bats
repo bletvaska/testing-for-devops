@@ -33,21 +33,7 @@ setup_file() {
     # update header
     res_header=$(sed '1d;$d' <<< "${res_header}")
 
-    #echo "$res_body" > /tmp/body
-    #echo "$res_header" > /tmp/header
-    #echo "$res_status" > /tmp/status
-
-#     res_body=$(curl -s \
-#         -X GET "${BASE_URL}" \
-#         -H "X-Parse-REST-API-Key: ${PARSE_REST_API_KEY}" \
-#         -H "X-Parse-Application-Id: ${PARSE_APP_ID}" \
-#         -H "Content-Type: application/json" \
-#         -D header.txt )
-# 
-#     #res_status=$(head -n 1 header.txt | cut -f2 -d' ')
-#     _status=($(head -n 1 header.txt))
-#     res_status="${_status[1]}"
-
+    # exports
     export res_header
     export res_body
     export res_status
