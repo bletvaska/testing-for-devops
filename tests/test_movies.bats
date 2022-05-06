@@ -16,31 +16,48 @@ setup_file() {
     set +o allexport
 
     # make a request
-#     response=$(http -h GET "${BASE_URL}" \
-#         "X-Parse-Application-Id:${PARSE_APP_ID}" \
-#         "X-Parse-REST-API-Key:${PARSE_REST_API_KEY}")
+    response=$(http "${BASE_URL}" \
+         "X-Parse-Application-Id:${PARSE_APP_ID}" \
+         "X-Parse-REST-API-Key:${PARSE_REST_API_KEY}" \
+         -p hb)
 
-    res_body=$(curl -s \
-        -X GET "${BASE_URL}" \
-        -H "X-Parse-REST-API-Key: ${PARSE_REST_API_KEY}" \
-        -H "X-Parse-Application-Id: ${PARSE_APP_ID}" \
-        -H "Content-Type: application/json" \
-        -D header.txt )
+    # split response to header and body
+    #res_header=$(sed '1,/^\s*$/p' -n <<< "${response}")
+    res_header=$(sed '/^\s*$/q' <<< "${response}")
+    res_body=$(sed '1,/^\s*$/d' <<< "${response}")
 
-    #res_status=$(head -n 1 header.txt | cut -f2 -d' ')
-    _status=($(head -n 1 header.txt))
+    # extract status from header
+    _status=($(head -n 1 <<< "${response}"))
     res_status="${_status[1]}"
 
+    # update header
+    res_header=$(sed '1d;$d' <<< "${res_header}")
+
+    #echo "$res_body" > /tmp/body
+    #echo "$res_header" > /tmp/header
+    #echo "$res_status" > /tmp/status
+
+#     res_body=$(curl -s \
+#         -X GET "${BASE_URL}" \
+#         -H "X-Parse-REST-API-Key: ${PARSE_REST_API_KEY}" \
+#         -H "X-Parse-Application-Id: ${PARSE_APP_ID}" \
+#         -H "Content-Type: application/json" \
+#         -D header.txt )
+# 
+#     #res_status=$(head -n 1 header.txt | cut -f2 -d' ')
+#     _status=($(head -n 1 header.txt))
+#     res_status="${_status[1]}"
+
+    export res_header
     export res_body
     export res_status
 }
 
 
 teardown_file() {
+    unset res_header
     unset res_body
     unset res_status
-
-    rm header.txt
 }
 
 
