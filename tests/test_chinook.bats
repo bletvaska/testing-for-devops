@@ -69,25 +69,27 @@ sql_query() {
 
 @test "when imported, then no track has negative unit price" {
     #Arrange
-    query="select unitprice from track where unitprice < 0"
+    expected=0
+    query="select count(*) from track where unitprice < 0"
 
     # Act
     run sql_query "${query}"
 
     # Assert
-    assert_success
+    assert [[ $output == $expected ]]
 }
 
 
 @test "when imported, then no invoice line has negative unit price" {
     #Arrange
-    query="select unitprice from invoiceline where unitprice < 0"
+    expected=0
+    query="select count(*) from invoiceline where unitprice < 0"
 
     # Act
     run sql_query "${query}"
 
     # Assert
-    assert_success
+    assert [[ $output == $expected ]]
 }
 
 
