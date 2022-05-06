@@ -35,15 +35,29 @@ _teardown_file(){
 
 # running process
 @test "when created expect running process nginx" {
+    # Arrange
+    cmd="service nginx status"
+    expected="nginx is running."
+
     # Act
-    run docker container exec -it "${CONTAINER}" service nginx status
+    run docker container exec -it "${CONTAINER}" $cmd
 
     # Assert
-    assert [[ "${output}" =~ "nginx is running." ]]
+    assert [[ "${output}" =~ "$expected" ]]
 }
 
 
 # user check
 @test "when created then user is root" {
+    # Arrange
+    cmd="whoami"
+    expected="root"
+
+    # Act
+    run docker container exec -it "${CONTAINER}" $cmd
+
+    # Assert
+    assert [[ "${output}" =~ "$expected" ]]
 }
+
 
