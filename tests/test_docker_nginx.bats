@@ -19,8 +19,23 @@ teardown_file(){
 }
 
 
-@test "hello world" {
+# presence of file
+@test "when created then index.html is in /usr/share/nginx/html/" {
     docker container exec -it "${CONTAINER}" hostname
 }
 
+
+# content of file
+@test "when created then index.html contains string Welcome to nginx" {
+}
+
+
+# running process
+@test "when created then process nginx is running" {
+}
+
+
+# user check
+@test "when created then user is root" {
+}
 
