@@ -5,7 +5,7 @@ load '/tools/libs/bats-support/load.bash'
 
 CONTAINER=nginx_test
 
-_setup_file() {
+setup_file() {
     docker container run --rm -it \
     --publish 8080:80 \
     --name "${CONTAINER}" \
@@ -14,7 +14,7 @@ _setup_file() {
 }
 
 
-_teardown_file(){
+teardown_file(){
     docker container stop "${CONTAINER}"
 }
 
@@ -59,5 +59,4 @@ _teardown_file(){
     # Assert
     assert [[ "${output}" =~ "$expected" ]]
 }
-
 
