@@ -75,3 +75,9 @@ teardown_file() {
     jq -e ".|select(.objectId)|select(.title)|select(.year)|select(.genres)|select(.createdAt)|select(.updatedAt)" <<< "${res_body}"
 }
 
+
+@test "when movie was downloaded expect it will be valid according to JSON schema" {
+    # Act
+    jsonschema movie.schema.json <<< "${res_body}"
+}
+
