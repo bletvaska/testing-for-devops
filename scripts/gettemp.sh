@@ -3,7 +3,7 @@
 set -o errexit  # stop when error occurs
 set -o pipefail # if not, expressions like `error here | true`
                 # will always succeed
-set -o nounset  # detects uninitialised variables
+#set -o nounset  # detects uninitialised variables
 [[ "${DEBUG:-}" ]] && set -o xtrace   # prints every expression
                                       # before executing it (debugging)
  
@@ -20,13 +20,25 @@ function usage(){
 function get_temp(){
     local location="${1:-}"
  
+    # check if location is entered
     [[ -z "${location}" ]] && {
         usage
         echo "Error: No city name given, which is required." >&2
         exit 1
     }
  
-    temp=$(jq .main.temp <(http "http://api.openweathermap.org/data/2.5/weather?units=metric&q=${location}&appid=${APPID}"))
+    # download data
+    local json=$(http "http://api.openweathermap.org/data/2.5/weather?units=metric&q=${location}&appid=${APPID}")
+
+    # if http status code is not 200, then exit
+    local http_status=$(echo "${json}" | jq --raw-output .cod)
+    [[ "${http_status}" == 200 ]] || {
+        printf "Error: Invalid location ${location}.\n" >&2
+        exit 1
+    }
+
+    # extract temperature
+    local temp=$(echo "${json}" | jq --raw-output .main.temp)
 
     echo "${temp}°C"
 }
