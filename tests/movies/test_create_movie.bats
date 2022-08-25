@@ -13,7 +13,9 @@ function setup_file(){
     }
 
     # source .env file
+    set -o allexport
     source "${ENV_FILE}"
+    set +o allexport
 
     # create a movie
     local response=$(curl -X POST \
@@ -21,9 +23,12 @@ function setup_file(){
         -H "X-Parse-Application-Id: ${PARSE_APPLICATION_ID}" \
         -H "X-Parse-REST-API-Key: ${PARSE_REST_API_KEY}" \
         -H "Content-Type: application/json" \
-        --data @movie.json \
+        --data @tests/movies/movie.json \
         "${BASE_URL}")
-    echo "${response}" > log
+
+    # extracting data
+    RESPONSE_BODY=$(cut -f1 -d' ' <<< "${response}")
+    RESPONSE_STATUS_CODE=$(cut -f2 -d' ' <<< "${response}")
 }
 
 
@@ -33,8 +38,24 @@ function setup_file(){
 
 
 function teardown_file(){
-    # delete movie from db
-    echo "world"
+    # extract objectId from created movie
+    local object_id=$(jq --raw-output .objectId <<< "${RESPONSE_BODY}")
 
+    # delete movie from db
+    local url="${BASE_URL}/${object_id}"
+    local response=$(curl -X DELETE \
+        -w " %{http_code}" \
+        -H "X-Parse-Application-Id: ${PARSE_APPLICATION_ID}" \
+        -H "X-Parse-REST-API-Key: ${PARSE_REST_API_KEY}" \
+        "${url}")
+
+    # extract status code from http response
+    local status_code=$(cut -f2 -d' ' <<< "${response}")
+
+    # if not 200, then error
+    [[ "${status_code}" -eq 200 ]] || {
+        echo "Error: Movie with objectId=${object_id} was not deleted"
+        exit 1
+    }
 }
 
