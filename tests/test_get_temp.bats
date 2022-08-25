@@ -24,7 +24,7 @@ source "scripts/gettemp.sh"
 }
 
 
-@test "WIP if location is not valid then status code is 1" {
+@test "if location is not valid then status code is 1" {
     local location="adfs"
     run get_temp "${location}"
     [[ ${status} == 1 ]]
@@ -39,22 +39,19 @@ source "scripts/gettemp.sh"
 
 
 @test "if location is empty then status code = 1" {
-    local location=""
-    run get_temp "${location}"
+    run get_temp
     [[ ${status} == 1 ]]
 }
 
 
 @test "if location is empty then usage is printed out" {
-    local location=""
-    run get_temp "${location}"
-    [[  ${lines}  =~ ^Usage* ]]
+    run get_temp
+    [[  ${lines[1]}  =~ ^Usage* ]]
 }
 
 
 @test "if location is empty then error output is printed out" {
-    local location=""
-    run get_temp "${location}"
+    run get_temp
     [[  ${lines[0]}  =~ ^Error* ]]
 }
 

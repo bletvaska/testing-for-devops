@@ -7,7 +7,7 @@ set -o pipefail # if not, expressions like `error here | true`
 [[ "${DEBUG:-}" ]] && set -o xtrace   # prints every expression
                                       # before executing it (debugging)
  
-readonly APPID="08f5d8fd385c443eeff6608c643e0bc5"
+readonly APPID="${OPENWEATHERMAP_API_KEY:-08f5d8fd385c443eeff6608c643e0bc5}"
 # source .env
  
 
@@ -22,8 +22,8 @@ function get_temp(){
  
     # check if location is entered
     [[ -z "${location}" ]] && {
-        usage
         echo "Error: No city name given, which is required." >&2
+        usage
         exit 1
     }
  
