@@ -8,6 +8,7 @@ set -o pipefail # if not, expressions like `error here | true`
                                       # before executing it (debugging)
  
 readonly APPID="${OPENWEATHERMAP_API_KEY:-08f5d8fd385c443eeff6608c643e0bc5}"
+readonly UNITS="${OPENWEATHERMAP_UNITS:-metric}"
 # source .env
  
 
@@ -28,7 +29,7 @@ function get_temp(){
     }
  
     # download data
-    local json=$(http "http://api.openweathermap.org/data/2.5/weather?units=metric&q=${location}&appid=${APPID}")
+    local json=$(http "http://api.openweathermap.org/data/2.5/weather?units=${UNITS}&q=${location}&appid=${APPID}")
 
     # if http status code is not 200, then exit
     local http_status=$(echo "${json}" | jq --raw-output .cod)
