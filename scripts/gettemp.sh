@@ -5,18 +5,20 @@ set -o pipefail # if not, expressions like `error here | true`
                 # will always succeed
 set -o nounset  # detects uninitialised variables
 [[ "${DEBUG:-}" ]] && set -o xtrace   # prints every expression
-                                       # before executing it (debugging)
+                                      # before executing it (debugging)
  
 readonly APPID="08f5d8fd385c443eeff6608c643e0bc5"
 # source .env
  
+
 function usage(){
     echo "Usage: ./gettemp.sh [city,countrycode]"
     echo "Created by (c)2022 peto, mirek, michal"
 }
 
+
 function get_temp(){
-    local location="$1"
+    local location="$1:-"
  
     [[ -z "${location}" ]] && {
         usage
@@ -28,12 +30,14 @@ function get_temp(){
 
     echo "${temp}°C"
 }
+
  
 function main(){
     local location="$1:-"
     get_temp "${location}"
 }
  
+
 # call the func only if the script is executed directly
 if [[ "${BASH_SOURCE[0]:-}" == "${0}" ]]; then
   main "$@"
