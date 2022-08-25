@@ -32,14 +32,14 @@ function get_temp(){
     local json=$(http "http://api.openweathermap.org/data/2.5/weather?units=${UNITS}&q=${location}&appid=${APPID}")
 
     # if http status code is not 200, then exit
-    local http_status=$(echo "${json}" | jq --raw-output .cod)
+    local http_status=$(jq --raw-output .cod <<< "${json}")
     [[ "${http_status}" == 200 ]] || {
         printf "Error: Invalid location ${location}.\n" >&2
         exit 1
     }
 
     # extract temperature
-    local temp=$(echo "${json}" | jq --raw-output .main.temp)
+    local temp=$(jq --raw-output .main.temp <<< "${json}")
 
     echo "${temp}°C"
 }
