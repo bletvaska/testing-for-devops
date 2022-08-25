@@ -27,13 +27,13 @@ function setup_file(){
         "${BASE_URL}")
 
     # extracting data
-    RESPONSE_BODY=$(cut -f1 -d' ' <<< "${response}")
-    RESPONSE_STATUS_CODE=$(cut -f2 -d' ' <<< "${response}")
+    export RESPONSE_BODY=$(cut -f1 -d' ' <<< "${response}")
+    export RESPONSE_STATUS_CODE=$(cut -f2 -d' ' <<< "${response}")
 }
 
 
 @test "if movie was created successfully, the status code should be 201" {
-    echo "hello"
+    assert [[ "${RESPONSE_STATUS_CODE}" -eq 201 ]]
 }
 
 
