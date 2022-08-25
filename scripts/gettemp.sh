@@ -18,7 +18,7 @@ function usage(){
 
 
 function get_temp(){
-    local location="$1:-"
+    local location="${1:-}"
  
     [[ -z "${location}" ]] && {
         usage
@@ -33,7 +33,7 @@ function get_temp(){
 
  
 function main(){
-    local location="$1:-"
+    local location="${1:-}"
     get_temp "${location}"
 }
  
