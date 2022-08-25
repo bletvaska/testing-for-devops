@@ -5,38 +5,59 @@ load "/tools/libs/bats-assert/load.bash"
 
 source "scripts/gettemp.sh"
 
+readonly LOCATION="kosice"
+readonly INVALID_LOCATION="asdf"
+
+
+function setup_file(){
+	echo ">> setup file" >> log
+}
+
+
+function teardown_file(){
+	echo ">> teardown file" >> log
+}
+
+function setup(){
+	echo ">> setup for test" >> log
+}
+
+
+function teardown(){
+	echo ">> teardown for test" >> log
+}
 
 @test "if location is valid then temperature is printed out" {
-    local location="kosice"
-    run get_temp "${location}"
+	# arrange - local setup
+
+	# act - make action
+    run get_temp "${LOCATION}"
+
+	# assert - test assertion
     assert [[ -n ${output} ]]
 }
 
 
 @test "if location is valid then temperature is printed out in specific format" {
-    local location="kosice"
-    run get_temp "${location}"
+    run get_temp "${LOCATION}"
     [[ "${output}" =~ ^[-]?[0-9]{1,2}\.[0-9]{0,2}°C$ ]]
 }
 
 
 @test "if location is valid then exit status is 0 {
-    local location="kosice"
-    run get_temp "${location}"
+    run get_temp "${LOCATION}"
     assert [[ ${status} == 0 ]]
 }
 
 
 @test "if location is not valid then status code is 1" {
-    local location="adfs"
-    run get_temp "${location}"
+    run get_temp "${INVALID_LOCATION}"
     assert [[ ${status} == 1 ]]
 }
 
 
 @test "if location is not valid then error output is printed out" {
-    local location="adfs"
-    run get_temp "${location}"
+    run get_temp "${INVALID_LOCATION}"
     [[ "${lines}"  =~ ^Error* ]]
 }
 
