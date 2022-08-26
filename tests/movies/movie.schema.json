@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "Movie Object",
+  "description": "Single movie in movie database.",
+  "type": "object",
+  "properties": {
+    "objectId": {
+      "description": "Unique movie identificator inside of the db.",
+      "type": "string"
+    },
+    "title": {
+      "description": "Movie title",
+      "type": "string"
+    },
+    "year": {
+      "description": "Year of movie release.",
+      "type": "integer",
+      "minimum": 1880
+    },
+    "genres": {
+      "description": "List of movie genres.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Action",
+          "Drama",
+          "War",
+          "Horror"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "createdAt": {
+      "description": "Date and time of movie entry creation.",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$"
+    },
+    "updatedAt": {
+      "description": "Date and time of movie entry update.",
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "objectId",
+    "title",
+    "year",
+    "genres",
+    "createdAt",
+    "updatedAt"
+  ]
+}
+
