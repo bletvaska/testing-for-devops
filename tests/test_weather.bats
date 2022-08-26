@@ -6,17 +6,17 @@ load '../libs/bats-support/load.bash'
 
 readonly CONTAINER_NAME=weather
 
-function setup_file(){
-    docker container run --rm -it \
-    --name "${CONTAINER_NAME}" \
-    --detach \
-    bletvaska/weather
-}
+#function setup_file(){
+    #docker container run --rm -it \
+    #--name "${CONTAINER_NAME}" \
+    #--detach \
+    #bletvaska/weather
+#}
 
 
-function teardown_file(){
-     docker container stop "${CONTAINER_NAME}"
-}
+#function teardown_file(){
+     #docker container stop "${CONTAINER_NAME}"
+#}
 
 
 @test "when started then user is mrilko" {
@@ -25,7 +25,7 @@ function teardown_file(){
     local cmd="whoami"
 
     # act
-    run docker container exec "${CONTAINER_NAME}" "${cmd}"
+    run docker container exec "${CONTAINER_NAME}" ${cmd}
 
     # assert
     assert_equal "${output}" "${expected}"
@@ -38,7 +38,7 @@ function teardown_file(){
     local expected="/usr/local/bin/python /usr/local/bin/weather"
 
     # act
-    run docker container exec "${CONTAINER_NAME}" ps --pid 1 --no-headers -o cmd
+    run docker container exec "${CONTAINER_NAME}" ${cmd}
 
     # assert
     assert_equal "${output}" "${expected}"
@@ -51,7 +51,7 @@ function teardown_file(){
     local expected="Python 3.10.5"
 
     # act
-    run docker container exec "${CONTAINER_NAME}" python --version
+    run docker container exec "${CONTAINER_NAME}" ${cmd}
 
     # assert
     assert_equal "${output}" "${expected}"
