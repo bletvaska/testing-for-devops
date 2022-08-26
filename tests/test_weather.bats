@@ -6,17 +6,17 @@ load '../libs/bats-support/load.bash'
 
 readonly CONTAINER_NAME=weather
 
-#function setup_file(){
-    #docker container run --rm -it \
-    #--name "${CONTAINER_NAME}" \
-    #--detach \
-    #bletvaska/weather
-#}
+function setup_file(){
+    docker container run --rm -it \
+    --name "${CONTAINER_NAME}" \
+    --detach \
+    bletvaska/weather
+}
 
 
-#function teardown_file(){
-     #docker container stop "${CONTAINER_NAME}"
-#}
+function teardown_file(){
+     docker container stop "${CONTAINER_NAME}"
+}
 
 
 @test "when started then user is mrilko" {
