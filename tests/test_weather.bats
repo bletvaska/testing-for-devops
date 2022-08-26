@@ -28,19 +28,32 @@ readonly CONTAINER_NAME=weather
     run docker container exec "${CONTAINER_NAME}" "${cmd}"
 
     # assert
-    [[ "${output}" == "${expected}" ]]
+    assert_equal "${output}" "${expected}"
 }
 
 
 @test "when started, then process with pid=1 is python weather" {
     # arrange
-    local cmd='ps --pid 1 --no-headers -o "cmd"'
+    local cmd="ps --pid 1 --no-headers -o cmd"
     local expected="/usr/local/bin/python /usr/local/bin/weather"
 
     # act
-    run docker container exec "${CONTAINER_NAME}" "${cmd}"
+    run docker container exec "${CONTAINER_NAME}" ps --pid 1 --no-headers -o cmd
 
     # assert
-    [[ "${output}" == "${expected}" ]]
+    assert_equal "${output}" "${expected}"
+}
+
+
+@test "when started, then verson of python is 3.10.5" {
+    # arrange
+    local cmd="python --version"
+    local expected="Python 3.10.5"
+
+    # act
+    run docker container exec "${CONTAINER_NAME}" python --version
+
+    # assert
+    assert_equal "${output}" "${expected}"
 }
 
