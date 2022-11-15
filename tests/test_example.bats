@@ -1,40 +1,30 @@
 #!/usr/bin/env bats
 
-load "libs/bats-support/load.bash"
-load "libs/bats-assert/load.bash"
-
-
-log(){
-    echo ">> ${1}" >> /tmp/report
+function skip_platform(){
+    skip "Not a selected platform"
 }
 
-setup() {
-    log 'setup()'
-}
+@test "if not a linux then skip" {
+    skip_platform "linux"
 
-teardown() {
-    log 'teardown()'
-}
-
-setup_file() {
-    log 'setup_file()'
-}
-
-teardown_file() {
-    log 'teardown_file()'
+    run date
 }
 
 
 @test "addition using bc" {
-  result="$(echo 2+2 | bc)"
-  assert [[ $result == 5 ]]
+    result="$(echo 2+2 | bc)"
+    [[ $result == 4 ]]
 }
+
 
 @test "addition using dc" {
-  result="$(echo 2 2+p | dc)"
-  assert [[ $result == 4 ]]
+    printf ">> running dc\n"
+    result="$(echo 2 2+p | dc)"
+    [[ $result == 4 ]]
 }
 
-@test "if then " {
-}
 
+@test "if cat is invoked with a nonexistent file then expect an error message" {
+    run cat xfile
+    [[ ${output} == "cat: can't open 'xfile': No such file or directory" ]]
+}
