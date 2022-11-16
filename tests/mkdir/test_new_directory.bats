@@ -15,7 +15,7 @@ function setup_file(){
 
 
 function teardown_file() {
-    rmdir "${FOLDER}"
+    [[ -d "${FOLDER}" ]] && rmdir "${FOLDER}"
     unset FOLDER
 }
 
