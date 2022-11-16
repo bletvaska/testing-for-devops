@@ -1,7 +1,8 @@
 #!/usr/bin/env bats
 
-load '/tools/libs/bats-support/load.bash'
-load '/tools/libs/bats-assert/load.bash'
+load '/tools/libs/bats-support/load'
+load '/tools/libs/bats-assert/load'
+source "${LIBS}/http.bash"
 
 
 function setup_file() {
@@ -18,13 +19,13 @@ function setup_file() {
     )
 
     # extract http status code from first line
-    export http_status=$(sed -rne  '1s|.* ([0-9]+) .*|\1|p' <<< "${response}")
+    export http_status=$(get_http_status "${response}")
 
     # extract header
-    export response_headers=$(sed -nre 's/\r$//' -e '2,/^$/p' <<< "${response}")
+    export response_headers=$(get_headers "${response}")
 
     # extract body
-    export response_body=$(sed -nre 's/\r$//' -e '/^$/,$p' <<< "${response}")
+    export response_body=$(get_body "${response}")
 }
 
 
