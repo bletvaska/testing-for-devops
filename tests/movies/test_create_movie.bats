@@ -22,7 +22,7 @@ function setup_file() {
     export http_status=$(get_http_status "${response}")
 
     # extract header
-    export response_headers=$(get_headers "${response}")
+    export response_headers=$(get_headers_as_json "${response}")
 
     # extract body
     export response_body=$(get_body "${response}")
