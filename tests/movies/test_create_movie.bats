@@ -28,17 +28,29 @@ function setup_file() {
 }
 
 
-@test "hello world" {
-    # printf "%d\n" "${http_status}"
-    # printf "%s\n" "${response_headers}"
-    printf "%s\n" "${response_body}"
-    assert true
+function teardown_file() {
+    # get object_id of movie to delete
+    object_id=$(jq --raw-output .objectId <<< "${response_body}")
+
+    # remove created movie
+    http --pretty=none --print=hb delete "${URL}${object_id}" \
+        "X-Parse-Application-Id:${APPLICATION_ID}" \
+        "X-Parse-REST-API-Key:${REST_API_KEY}"
 }
 
 
-# ak sa podarilo film vytvorit, tak http status kod 201 a vo vysledku bude objectId a createdAt
-@test "WIP: when movie was created, then http status code is 201" {
+@test "when movie was created, then http status code is 201" {
     assert_equal "${http_status}" 201
 }
 
-# ak poslem prazdny dopyt, tak
+
+@test "when movie was created, then key objectId should be in response json" {
+    run jq --exit-status .objectId <<< "${response_body}"
+    assert_equal "${status}" 0
+}
+
+
+@test "when movie was created, then key createdAt should be in response json" {
+    run jq --exit-status .createdAt <<< "${response_body}"
+    assert_equal "${status}" 0
+}
