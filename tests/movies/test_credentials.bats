@@ -10,7 +10,7 @@ function setup_file() {
     # set +a
 
     # set local test variables
-    export URL="${BASE_URL}/classess/movies/"
+    export URL="${BASE_URL}/classes/movies/"
 }
 
 
@@ -83,7 +83,7 @@ function setup_file() {
 
 
 # ak zadam validne oba kluce, tak http status kod 200 a dostanem film
-@test "WIP: when rest api and application id are provided then expect http status code 200" {
+@test "when rest api and application id are provided then expect http status code 200" {
     # act
     run http --pretty=none --headers "${URL}" \
         X-Parse-Application-Id:"${APPLICATION_ID}" \

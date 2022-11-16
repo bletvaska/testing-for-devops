@@ -5,6 +5,6 @@ load '/tools/libs/bats-assert/load.bash'
 
 function setup_file() {
     # set local test variables
-    export URL="${BASE_URL}/classess/movies/"
+    export URL="${BASE_URL}/classes/movies/"
 }
 
