@@ -1,5 +1,10 @@
 #!/usr/bin/env bats
 
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# load modules
 load "/tools/libs/bats-support/load"
 load "/tools/libs/bats-assert/load"
 

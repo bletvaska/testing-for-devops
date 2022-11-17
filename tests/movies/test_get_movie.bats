@@ -1,17 +1,21 @@
 #!/usr/bin/env bats
 
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# load modules
 load "${LIBS}/bats-support/load"
 load "${LIBS}/bats-assert/load"
 source "${LIBS}/http.bash"
 
+# globals
+readonly url="${BASE_URL}/classes/movies/"
+
 
 function setup_file() {
-    # set local test variables
-    export URL="${BASE_URL}/classes/movies/"
-
     # create a new entry
-    # FIXME where is post?
-    local response=$(http --pretty=none --print=hb "${URL}" \
+    local response=$(http --pretty=none --print=hb post "${url}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}" \
         title="Indiana Jones 5" \
@@ -24,7 +28,7 @@ function setup_file() {
     export object_id=$(jq --raw-output .objectId <<< "${body}")
 
     # get movie by objectId
-    response=$(http --pretty=none --print=hb "${URL}/${object_id}" \
+    response=$(http --pretty=none --print=hb "${url}/${object_id}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}"
     )
@@ -43,7 +47,7 @@ function setup_file() {
 
 function teardown_file() {
     # remove created movie
-    http delete "${URL}${object_id}" \
+    http delete "${url}${object_id}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}"
 }

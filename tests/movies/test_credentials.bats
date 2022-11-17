@@ -12,11 +12,6 @@ source "${LIBS}/http.bash"
 readonly url="${BASE_URL}/classes/movies/"
 
 
-@test "WIP failure" {
-    echo "${BASH_SOURCE}"
-    assert false
-}
-
 @test "when no token is provided then expect error message" {
     # act
     run http --pretty=none --body --json "${url}"
