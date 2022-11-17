@@ -4,13 +4,12 @@ load "${LIBS}/bats-support/load"
 load "${LIBS}/bats-assert/load"
 source "${LIBS}/http.bash"
 
+readonly url="${BASE_URL}/classes/movies/"
+
 
 function setup_file() {
-    # set local test variables
-    export URL="${BASE_URL}/classes/movies/"
-
     # create a new entry
-    local response=$(http --pretty=none --print=hb post "${URL}" \
+    local response=$(http --pretty=none --print=hb post "${url}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}" \
         title="Indiana Jones 5" \
@@ -35,7 +34,7 @@ function teardown_file() {
     local object_id=$(jq --raw-output .objectId <<< "${response_body}")
 
     # remove created movie
-    http delete "${URL}${object_id}" \
+    http delete "${url}${object_id}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}"
 }
