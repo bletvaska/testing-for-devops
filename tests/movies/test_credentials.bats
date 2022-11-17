@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
-load '/tools/libs/bats-support/load.bash'
-load '/tools/libs/bats-assert/load.bash'
+load "${LIBS}/bats-support/load"
+load "${LIBS}/bats-assert/load"
 source "${LIBS}/http.bash"
 
 
