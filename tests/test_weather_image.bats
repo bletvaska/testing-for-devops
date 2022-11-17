@@ -20,3 +20,9 @@ load "/tools/libs/bats-assert/load"
     run docker container run --rm bletvaska/weather python3 --version
     assert_equal "${output}" "Python 3.10.5"
 }
+
+
+@test "when started, then running command should be weather" {
+    run docker image inspect -f '{{.Config.Cmd}}' bletvaska/weather
+    assert_equal "${output}" "[weather]"
+}
