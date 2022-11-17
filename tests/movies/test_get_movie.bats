@@ -60,7 +60,7 @@ function teardown_file() {
 }
 
 
-@test "WIP: if movie was retrieved, then it should match json schema" {
+@test "if movie was retrieved, then it should match json schema" {
     run jsonschema tests/movies/movie.schema.json <<< "${response_body}"
     assert_equal "${status}" 0
 }
