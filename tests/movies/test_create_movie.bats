@@ -56,7 +56,8 @@ function teardown_file() {
     assert_equal "${status}" 0
 }
 
-@test "if the movie was created, then number of keys in response JSON is 2" {
+
+@test "if movie was created, then number of keys in response JSON is 2" {
     local len=$(jq length <<< "${response_body}")
     assert_equal "${len}" 2
 }

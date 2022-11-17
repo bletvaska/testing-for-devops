@@ -26,7 +26,7 @@ function setup_file() {
     run http --pretty=none --headers --json "${URL}"
 
     # extract http status code from first line
-    http_status=$(get_http_status "${output}")
+    local http_status=$(get_http_status "${output}")
 
     # assert
     assert_equal "${http_status}" 401
@@ -40,7 +40,7 @@ function setup_file() {
         X-Parse-Application-Id:"${APPLICATION_ID}"
 
     # extract http status code from first line
-    http_status=$(get_http_status "${output}")
+    local http_status=$(get_http_status "${output}")
 
     # assert
     assert_equal "${http_status}" 403
@@ -54,7 +54,7 @@ function setup_file() {
         X-Parse-REST-API-Key:"${REST_API_KEY}"
 
     # extract http status code from first line
-    http_status=$(get_http_status "${output}")
+    local http_status=$(get_http_status "${output}")
 
     # assert
     assert_equal "${http_status}" 401
@@ -69,7 +69,7 @@ function setup_file() {
         X-Parse-REST-API-Key:"${APPLICATION_ID}"
 
     # extract http status code from first line
-    http_status=$(get_http_status "${output}")
+    local http_status=$(get_http_status "${output}")
 
     # assert
     assert_equal "${http_status}" 401
@@ -84,7 +84,7 @@ function setup_file() {
         X-Parse-REST-API-Key:"${REST_API_KEY}"
 
     # extract http status code from first line
-    http_status=$(get_http_status "${output}")
+    local http_status=$(get_http_status "${output}")
 
     # assert
     assert_equal "${http_status}" 200
