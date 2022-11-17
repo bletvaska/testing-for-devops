@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
-load '/tools/libs/bats-support/load'
-load '/tools/libs/bats-assert/load'
+load "${LIBS}/bats-support/load"
+load "${LIBS}/bats-assert/load"
 source "${LIBS}/http.bash"
 
 
@@ -21,13 +21,12 @@ function setup_file() {
     # extract http status code from first line
     export http_status=$(get_http_status "${response}")
 
-    # extract header
+    # extract headers
     export response_headers=$(get_headers_as_json "${response}")
+    export response_headers_as_json=$(get_headers_as_json "${response}" )
 
     # extract body
     export response_body=$(get_body "${response}")
-
-    export response_headers_as_json=$(get_headers_as_json "${response}" )
 }
 
 
@@ -67,6 +66,5 @@ function teardown_file() {
 
 @test "if movie was created, then response content type should be json" {
     local content_type=$(jq --raw-output '."Content-Type"' <<< "${response_headers_as_json}")
-
     assert_equal "${content_type}" "application/json; charset=utf-8"
 }
