@@ -54,18 +54,13 @@ function teardown_file() {
 }
 
 
-@test "WIP: if movie was retrieved, then it should contain specific keys in json" {
+@test "if movie was retrieved, then it should contain specific keys in json" {
     run jq --exit-status 'has("createdAt") and has("objectId") and has("title")' <<< "${response_body}"
     assert_equal "${status}" 0
 }
 
 
-@test "testing" {
-#     printf "${http_status}\n"
-#     printf "${object_id}\n"
-#     printf "${response_headers}\n"
-#     printf "${response_headers_as_json}\n"
-    printf "${response_body}\n"
-
-    assert false
+@test "WIP: if movie was retrieved, then it should match json schema" {
+    run jsonschema tests/movies/movie.schema.json <<< "${response_body}"
+    assert_equal "${status}" 0
 }

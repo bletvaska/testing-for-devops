@@ -16,7 +16,7 @@
       "description": "year of movie release",
       "type": "integer",
       "minimum": 1880,
-      "maximum": 2022
+      "maximum": 2050
     },
     "genres": {
       "description": "list of movie genres",
@@ -28,7 +28,8 @@
           "Drama",
           "War",
           "Horror",
-          "Thriller"
+          "Thriller",
+          "Adventure"
         ]
       },
       "minItems": 1,
