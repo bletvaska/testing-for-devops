@@ -10,7 +10,7 @@ function setup_file() {
     export URL="${BASE_URL}/classes/movies/"
 
     # create a new entry
-    local response=$(http --pretty=none --print=hb "${URL}" \
+    local response=$(http --pretty=none --print=hb post "${URL}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}" \
         title="Indiana Jones 5" \
