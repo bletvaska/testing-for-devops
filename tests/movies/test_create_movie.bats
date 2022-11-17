@@ -10,7 +10,7 @@ function setup_file() {
     export URL="${BASE_URL}/classes/movies/"
 
     # create a new entry
-    response=$(http --pretty=none --print=hb "${URL}" \
+    local response=$(http --pretty=none --print=hb "${URL}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}" \
         title="Indiana Jones 5" \
@@ -31,7 +31,7 @@ function setup_file() {
 
 function teardown_file() {
     # get object_id of movie to delete
-    object_id=$(jq --raw-output .objectId <<< "${response_body}")
+    local object_id=$(jq --raw-output .objectId <<< "${response_body}")
 
     # remove created movie
     http --pretty=none --print=hb delete "${URL}${object_id}" \
@@ -40,18 +40,23 @@ function teardown_file() {
 }
 
 
-@test "when movie was created, then http status code is 201" {
+@test "if movie was created, then http status code is 201" {
     assert_equal "${http_status}" 201
 }
 
 
-@test "when movie was created, then key objectId should be in response json" {
+@test "if movie was created, then key objectId should be in response json" {
     run jq --exit-status 'has("objectId")' <<< "${response_body}"
     assert_equal "${status}" 0
 }
 
 
-@test "when movie was created, then key createdAt should be in response json" {
+@test "if movie was created, then key createdAt should be in response json" {
     run jq --exit-status 'has("createdAt")' <<< "${response_body}"
     assert_equal "${status}" 0
+}
+
+@test "if the movie was created, then number of keys in response JSON is 2" {
+    local len=$(jq length <<< "${response_body}")
+    assert_equal "${len}" 2
 }
