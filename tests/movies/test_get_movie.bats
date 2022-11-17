@@ -33,7 +33,7 @@ function setup_file() {
     export http_status=$(get_http_status "${response}")
 
     # extract headers
-    export response_headers=$(get_headers_as "${response}")
+    export response_headers=$(get_headers "${response}")
     export response_headers_as_json=$(get_headers_as_json "${response}" )
 
     # extract body
