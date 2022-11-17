@@ -26,6 +26,8 @@ function setup_file() {
 
     # extract body
     export response_body=$(get_body "${response}")
+
+    export response_headers_as_json=$(get_headers_as_json "${response}" )
 }
 
 
@@ -34,7 +36,7 @@ function teardown_file() {
     local object_id=$(jq --raw-output .objectId <<< "${response_body}")
 
     # remove created movie
-    http --pretty=none --print=hb delete "${URL}${object_id}" \
+    http delete "${URL}${object_id}" \
         "X-Parse-Application-Id:${APPLICATION_ID}" \
         "X-Parse-REST-API-Key:${REST_API_KEY}"
 }
@@ -60,4 +62,11 @@ function teardown_file() {
 @test "if movie was created, then number of keys in response JSON is 2" {
     local len=$(jq length <<< "${response_body}")
     assert_equal "${len}" 2
+}
+
+
+@test "if movie was created, then response content type should be json" {
+    local content_type=$(jq --raw-output '."Content-Type"' <<< "${response_headers_as_json}")
+
+    assert_equal "${content_type}" "application/json; charset=utf-8"
 }

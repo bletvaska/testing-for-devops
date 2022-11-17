@@ -20,6 +20,7 @@ function get_headers() {
 # $ jq '."Content-Type"' <<< "${json}"
 function get_headers_as_json() {
     local response="${1:?Response object not set.}"
+    local headers
 
     headers=$(get_headers "${response}")
     jq --slurp --raw-input \
