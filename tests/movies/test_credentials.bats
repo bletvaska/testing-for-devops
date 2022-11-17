@@ -60,6 +60,7 @@ function setup_file() {
     assert_equal "${http_status}" 401
 }
 
+
 # ak zadam oba kluce ale zle, tak http staus kod 401 a error message
 @test "when rest api and application id are provided but wrong then expect http status code 401" {
     # act

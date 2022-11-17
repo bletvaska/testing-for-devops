@@ -1,3 +1,4 @@
+# extracts HTTP status code from HTTP response
 function get_http_status(){
     local response="${1:?Response object not set.}"
 
@@ -12,7 +13,11 @@ function get_headers() {
     sed -nre 's/\r$//' -e '2,/^$/p' <<< "${response}"
 }
 
+
 # Extracts headers from HTTP response as JSON
+# Function gets the response headers as JSON object.
+# To retrieve the values with dash in key names, use following syntax:
+# $ jq '."Content-Type"' <<< "${json}"
 function get_headers_as_json() {
     local response="${1:?Response object not set.}"
 
@@ -26,6 +31,7 @@ function get_headers_as_json() {
 }
 
 
+# Extracts body from HTTP response
 function get_body() {
     local response="${1:?Response object not set.}"
 

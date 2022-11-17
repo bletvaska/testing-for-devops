@@ -46,12 +46,12 @@ function teardown_file() {
 
 
 @test "when movie was created, then key objectId should be in response json" {
-    run jq --exit-status .objectId <<< "${response_body}"
+    run jq --exit-status 'has("objectId")' <<< "${response_body}"
     assert_equal "${status}" 0
 }
 
 
 @test "when movie was created, then key createdAt should be in response json" {
-    run jq --exit-status .createdAt <<< "${response_body}"
+    run jq --exit-status 'has("createdAt")' <<< "${response_body}"
     assert_equal "${status}" 0
 }
