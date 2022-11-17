@@ -64,6 +64,12 @@ function teardown_file() {
 }
 
 
+@test "when movie was retrieved, expect content type json" {
+    local content_type=$(jq --raw-output '."Content-Type"' <<< "${response_headers_as_json}")
+    assert [[ "${content_type}" =~ "application/json" ]]
+}
+
+
 @test "if movie was retrieved, then it should match json schema" {
     run jsonschema tests/movies/movie.schema.json <<< "${response_body}"
     assert_equal "${status}" 0

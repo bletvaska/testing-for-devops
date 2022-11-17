@@ -8,6 +8,7 @@ set -o nounset
 load "/tools/libs/bats-support/load"
 load "/tools/libs/bats-assert/load"
 
+# global variables
 readonly container_name="weather"
 readonly image_name="bletvaska/weather"
 
@@ -21,9 +22,8 @@ function setup_file() {
 
 
 function teardown_file() {
-    printf "working on"
     docker container rm -f "${container_name}"
-    # [[ "${ENVIRONMENT:-dev}" == "prod" ]] && docker image rm "${image_name}"
+    [[ "${ENVIRONMENT:-dev}" == "prod" ]] && docker image rm "${image_name}"
 }
 
 
