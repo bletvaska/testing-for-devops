@@ -1,0 +1,18 @@
+file:
+  /usr/bin/vim:
+    exists: true
+    mode: "0755"
+    filetype: file
+    contains: []
+package:
+  vim:
+    installed: true
+    versions:
+    - 8.2.5000-r0
+port:
+  tcp:8000:
+    listening: false
+    ip: []
+process:
+  nginx:
+    running: false

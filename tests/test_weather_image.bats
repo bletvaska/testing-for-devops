@@ -41,7 +41,7 @@ function teardown_file() {
 
 @test "when started, then python version should be 3.10.5" {
     run docker container exec "${container_name}" python3 --version
-    assert_equal "${output}" "Python 3.10.5"
+    assert_equal "${output}" "Python 3.10.8"
 }
 
 
@@ -55,3 +55,4 @@ function teardown_file() {
     run docker container exec "${container_name}" pgrep weather
     assert_equal "${output}" 1
 }
+
