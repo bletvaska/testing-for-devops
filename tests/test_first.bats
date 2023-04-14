@@ -22,7 +22,7 @@ function teardown(){
 # setup()
 @test "when input is 2+3 then output is 5" {
     result=$(echo "2+3" | bc)
-    assert [ "${result}" == 6 ]
+    assert [ "${result}" == 5 ]
 }
 # teardown()
 
