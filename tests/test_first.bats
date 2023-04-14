@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
-load libs/bats-support/load.bash
-load libs/bats-assert/load.bash
+load "${LIBS}/bats-support/load.bash"
+load "${LIBS}/bats-assert/load.bash"
 
 function setup_file(){
     printf "Setup file...\n" >> /tmp/process

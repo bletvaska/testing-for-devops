@@ -2,8 +2,8 @@
 
 # set -o nounset
 
-load ../libs/bats-support/load.bash
-load ../libs/bats-assert/load.bash
+load "${LIBS}/bats-support/load.bash"
+load "${LIBS}/bats-assert/load.bash"
 
 
 function setup() {
