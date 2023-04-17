@@ -23,7 +23,12 @@ function setup_file() {
 
 
 function teardown_file() {
-    echo "teardown"
+    object_id=$(jq --raw-output .objectId <<< "${http_body}")
+
+    http_query delete \
+        "${BASE_URL}/classes/movies/${object_id}" \
+        "X-Parse-Application-Id:${APP_ID}" \
+        "X-Parse-REST-API-Key:${REST_API_KEY}"
 }
 
 
@@ -33,7 +38,7 @@ function teardown_file() {
 
 
 @test "when movie is created then objectId will be set" {
-    object_id=$(jq .objectId <<< "${http_body}")
+    object_id=$(jq --raw-output .objectId <<< "${http_body}")
 
     assert [ -n "${object_id}" ]
 }
