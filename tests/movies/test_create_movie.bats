@@ -10,7 +10,7 @@ readonly APP_ID="axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ"
 readonly REST_API_KEY="sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk"
 
 
-@test "when movie is created then http status code is 201" {
+function setup_file() {
     http_query post \
         "${BASE_URL}/classes/movies/" \
         "X-Parse-Application-Id:${APP_ID}" \
@@ -18,10 +18,22 @@ readonly REST_API_KEY="sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk"
         "Content-Type:application/json" \
         title="Tetris" \
         year:=2023 \
-        genres:='["Biography", "Drama", "History"]'
+        genres:='["Biography", "Drama", "History"]' 
+}
 
-    
-    http_status_code=$(get_http_status "${response}")
 
+function teardown_file() {
+    echo "teardown"
+}
+
+
+@test "when movie is created then http status code is 201" {
     assert_equal "${http_status_code}" 201
+}
+
+
+@test "when movie is created then objectId will be set" {
+    object_id=$(jq .objectId <<< "${http_body}")
+
+    assert [ -n "${object_id}" ]
 }
