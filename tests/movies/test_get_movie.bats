@@ -44,3 +44,13 @@ readonly REST_API_KEY="sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk"
 
     assert_equal "${http_status_code}" 401
 }
+
+@test "when movie was retrieved then it should match json schema" {
+    http_query get \
+        "${BASE_URL}/classes/movies/u9wuoyMaqE" \
+        "X-Parse-REST-API-Key:${REST_API_KEY}"
+
+    run jsonschema tests/movies/schema.json <<< "${http_body}"
+
+    assert_success
+}

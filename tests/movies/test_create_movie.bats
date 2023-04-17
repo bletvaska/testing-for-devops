@@ -47,3 +47,4 @@ function teardown_file() {
     content_type=$(jq --raw-output '."Content-Type"' <<< "${http_headers}")
     assert_equal "${content_type}" "application/json; charset=utf-8"
 }
+
