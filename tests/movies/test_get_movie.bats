@@ -3,17 +3,18 @@
 load "${LIBS}/bats-support/load.bash"
 load "${LIBS}/bats-assert/load.bash"
 
+source "${LIBS}/http.bash"
 
-function get_http_status() {
-    local response="${1:?Response object not set.}"
-    
-    local array=(${response})
-    printf "${array[1]}"
-}
+readonly BASE_URL="https://parseapi.back4app.com"
+readonly APP_ID="axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ"
+readonly REST_API_KEY="sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk"
 
 
-@test "when movie was successfully retrieved then http status code is 200" {
-    response=$(http --header https://parseapi.back4app.com/classes/movies/u9wuoyMaqE   X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ   X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk)
+@test "WIP: when movie was successfully retrieved then http status code is 200" {
+    http_query get \
+        "${BASE_URL}/classes/movies/u9wuoyMaqE" \
+        "X-Parse-Application-Id:${APP_ID}" \
+        "X-Parse-REST-API-Key:${REST_API_KEY}"
     
     http_status_code=$(get_http_status "${response}")
 
@@ -21,7 +22,7 @@ function get_http_status() {
 }
 
 @test "when no tokens have been provided then expect 401 " {
-    response=$(http --header https://parseapi.back4app.com/classes/movies/u9wuoyMaqE)
+    response=$(http --print=hb "${BASE_URL}/classes/movies/u9wuoyMaqE")
 
     http_status_code=$(get_http_status "${response}")
 
@@ -30,7 +31,7 @@ function get_http_status() {
 
 
 @test "when only App Id is provided then http status code is 403" {
-    response=$(http --header https://parseapi.back4app.com/classes/movies/u9wuoyMaqE   X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ)
+    response=$(http --print=hb "${BASE_URL}/classes/movies/u9wuoyMaqE" X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ)
 
     http_status_code=$(get_http_status "${response}")
 
@@ -39,7 +40,7 @@ function get_http_status() {
 
 
 @test "when only REST API key is provided then http status code is 401" {
-    response=$(http --header https://parseapi.back4app.com/classes/movies/u9wuoyMaqE X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk)
+    response=$(http --print=hb "${BASE_URL}/classes/movies/u9wuoyMaqE" X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk)
 
     http_status_code=$(get_http_status "${response}")
 
