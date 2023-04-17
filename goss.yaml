@@ -1,0 +1,36 @@
+# wait for start of the application:
+# export GOSS_SLEEP=5s
+# run:
+# dgoss run bletvaska/weather
+
+file:
+  /app:
+    exists: true
+    mode: "0755"
+    size: 4096
+    owner: mrilko
+    group: mrilko
+    filetype: directory
+    contains: []
+package:
+  bash:
+    installed: true
+    versions:
+    - 5.1-2+deb11u1
+  python:
+    installed: false
+port:
+  tcp:8000:
+    listening: true
+    ip:
+    - 0.0.0.0
+process:
+  python:
+    running: true
+http:
+  http://localhost:8000:
+    status: 200
+    allow-insecure: false
+    no-follow-redirects: false
+    timeout: 5000
+    body: []
