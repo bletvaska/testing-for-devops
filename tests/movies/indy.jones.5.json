@@ -1,1 +1,11 @@
-{"objectId":"YSrIf7zlIR","title":"Indiana Jones 5","year":2023,"genres":["Adventure","Action"],"createdAt":"2022-11-17T13:59:56.685Z","updatedAt":"2022-11-17T13:59:56.685Z"}
+{
+    "objectId":"YSrIf7zlIR",
+    "title":"Indiana Jones 5",
+    "year":2023,
+    "genres":[
+        "Adventure",
+        "Action"
+        ],
+    "createdAt":"2022-11-17T13:59:56.685Z",
+    "updatedAt":"2022-11-17T13:59:56.685Z"
+}
