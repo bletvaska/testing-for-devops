@@ -60,7 +60,7 @@ function http_query() {
     local url="${2:?Missing URL.}"
     local params="${@:?Missing parameters for making HTTP request.}"
 
-    response=$(http --print=hb "${@}" )
+    response=$(http --print=hb "${@}")
 
     http_status_code=$(get_http_status "${response}")
     http_headers=$(get_headers_as_json "${response}")
