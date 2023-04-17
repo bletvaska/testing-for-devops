@@ -42,3 +42,8 @@ function teardown_file() {
 
     assert [ -n "${object_id}" ]
 }
+
+@test "when movie is created then conte-type is application/json" {
+    content_type=$(jq --raw-output '."Content-Type"' <<< "${http_headers}")
+    assert_equal "${content_type}" "application/json; charset=utf-8"
+}
