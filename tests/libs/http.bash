@@ -44,8 +44,6 @@ function get_headers_as_json() {
            | split(": ")
            | {(.[0]): .[1]} ]
        | add' <<< "${headers}"
-
-    
 }
 
 
