@@ -49,11 +49,14 @@ load "${LIBS}/http.bash"
 
 
 @test "when invalid tokens are provided then http status is 401" {
+    # Arrange
     url="${BASE_URL}/classes/movies/u9wuoyMaqE"
 
+    # Act
     http_query GET "${url}" \
         "X-Parse-REST-API-Key:invalid_token" \
         "X-Parse-Application-Id:invalid_token"
 
+    # Assert
     assert_equal "${http_status_code}" 401
 }
