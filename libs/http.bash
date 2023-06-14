@@ -55,6 +55,20 @@ function _get_body() {
 }
 
 
+# Executes HTTP request
+#
+# Globals:
+#   http_status_code - HTTP status code of response
+#   http_headers - Headers of HTTP response
+#   http_body - Body HTTP response
+# Arguments:
+#   $1 - HTTP method (GET|POST|PUT|...)
+#   $2 - URL
+#   $3 - HTTP params
+# Returns:
+#   0 on success, non-zero on error.
+# Outputs:
+#   none
 function http_query() {
     local method="${1:?Missing HTTP method.}"
     local url="${2:?Missing URL.}"
