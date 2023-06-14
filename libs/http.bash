@@ -17,7 +17,7 @@
 #   0 on success, non-zero on error.
 # Outputs:
 #   STDOUT - HTTP status code
-function get_http_status() {
+function _get_http_status() {
     local response="${1:?Response object not set.}"
     
     readarray -t -d" " content <<< "${response}"
@@ -26,7 +26,7 @@ function get_http_status() {
 
 
 # Return the headers of HTTP response as text.
-function get_http_headers() {
+function _get_http_headers() {
     local response="${1:?Response object not set.}"
 
     sed -nre 's/\r$//' -e '2,/^$/p' <<< "${response}"
@@ -34,10 +34,10 @@ function get_http_headers() {
 
 
 # Return the headers of HTTP response as JSON object.
-function get_headers_as_json() {
+function _get_headers_as_json() {
    local response="${1:?Response object not set.}"
 
-   headers=$(get_http_headers "${response}")
+   headers=$(_get_http_headers "${response}")
    jq --slurp --raw-input \
        '[split("\n")[:-1][]
            | rtrimstr("\\r")
@@ -48,7 +48,7 @@ function get_headers_as_json() {
 
 
 # Return the body of HTTP response only.
-function get_body() {
+function _get_body() {
    local response="${1:?Response object not set.}"
 
    sed -nre 's/\r$//' -e '/^$/,$p' <<< "${response}"
@@ -62,9 +62,9 @@ function http_query() {
 
     response=$(http --print=hb "${@}")
 
-    http_status_code=$(get_http_status "${response}")
-    http_headers=$(get_headers_as_json "${response}")
-    http_body=$(get_body "${response}")
+    http_status_code=$(_get_http_status "${response}")
+    http_headers=$(_get_headers_as_json "${response}")
+    http_body=$(_get_body "${response}")
 
     export http_status_code
     export http_headers
