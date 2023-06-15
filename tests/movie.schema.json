@@ -1,0 +1,57 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "title": "Movie JSON Schema",
+    "description": "A movie information",
+    "type": "object",
+    "properties": {
+      "objectId": {
+        "description": "Unique movie identifier",
+        "type": "string"
+      },
+      "title": {
+        "description": "Movie title",
+        "type": "string"
+      },
+      "year": {
+        "description": "The year of release",
+        "type": "integer",
+        "minimum": 1880,
+        "maximum": 2023
+      },
+      "genres": {
+        "description": "The list of movie genres",
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "Action",
+            "Adventure",
+            "Drama",
+            "Thriller",
+            "War"
+          ]
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "createdAt": {
+        "description": "The date and time of entry creation",
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$"
+      },
+      "updatedAt": {
+        "description": "The date and time of last update of entry",
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": [
+      "objectId",
+      "title",
+      "year",
+      "genres",
+      "createdAt",
+      "updatedAt"
+    ]
+  }
+  
