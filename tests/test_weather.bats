@@ -29,7 +29,10 @@ function teardown_file() {
 # }
 
 @test "when run, then python is of version 3.11.1" {
+    # act
     run docker container exec "${CONTAINER_NAME}" python3 --version
+
+    # assert
     assert_output "Python 3.11.1"
 }
 

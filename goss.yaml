@@ -1,0 +1,25 @@
+package:
+  hostname:
+    installed: true
+    versions:
+    - "3.23"
+port:
+  tcp:80:
+    listening: false
+    ip: []
+  tcp:8000:
+    listening: true
+    ip:
+    - 0.0.0.0
+process:
+  python:
+    running: true
+  vim:
+    running: false
+http:
+  http://localhost:8000:
+    status: 200
+    allow-insecure: false
+    no-follow-redirects: false
+    timeout: 5000
+    body: []
