@@ -84,3 +84,16 @@ function http_query() {
     export http_headers
     export http_body
 }
+
+
+function assert_http_status_code() {
+    local status="${1}"
+
+    if [[ $http_status_code != "$status" ]]; then
+        batslib_print_kv_single_or_multi 8 \
+            'expected' "$status" \
+            'actual'   "$http_status_code" \
+        | batslib_decorate 'HTTP status codes do not equal' \
+        | fail
+    fi
+}
