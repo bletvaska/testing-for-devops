@@ -47,5 +47,4 @@ function setup_file() {
 @test "when movie was retrieved, then it should match it's json schema" {
     run jsonschema movie.schema.json --instance <(printf "%s" "${http_body}")
     assert_success
-    # assert "${status}" 0
 }
