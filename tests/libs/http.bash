@@ -64,7 +64,7 @@ function _get_body() {
 # Arguments:
 #   $1 - HTTP method (GET|POST|PUT|...)
 #   $2 - URL
-#   $3 - HTTP params
+#   $3 - HTTP params, optional
 # Returns:
 #   0 on success, non-zero on error.
 # Outputs:
@@ -72,12 +72,9 @@ function _get_body() {
 function http_query() {
     local method="${1:?Missing HTTP method.}"
     local url="${2:?Missing URL.}"
-    local params="${@:?Missing parameters for making HTTP request.}"
-    echo $method
-    echo $url
-    echo $params
+    local params=("${@}")
 
-    response=$(http --print=hb "${@}")
+    response=$(http --print=hb "${method}" "${url}" "${params[@]:2}")
 
     http_status_code=$(_get_http_status "${response}")
     http_headers=$(_get_headers_as_json "${response}")
@@ -97,19 +94,16 @@ function http_query() {
 #   http_body - Body HTTP response
 # Arguments:
 #   $1 - URL
-#   $2 - HTTP params
+#   $2 - HTTP params, optional
 # Returns:
 #   0 on success, non-zero on error.
 # Outputs:
 #   none
 function http_get() {
     local url="${1:?Missing URL.}"
-    local params="${@:?Missing parameters for making HTTP request.}"
-    echo $url
-    echo $params
-    echo "--------------------------"
+    local params=("${@}")
 
-    http_query get "${url}" "${params}"
+    http_query get "${url}" "${params[@]:1}"
 }
 
 
