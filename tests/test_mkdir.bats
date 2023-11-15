@@ -7,11 +7,46 @@ set -o nounset
 load libs/bats-support/load
 load libs/bats-assert/load
 
+# fixtures
+function setup(){
+    folder=$(mktemp --directory --dry-run)
+}
+
+
+function teardown(){
+    if [ -d "${folder}" ]; then
+        rmdir "${folder}"
+    fi
+}
+
+
 # tests
 @test "if the mkdir is invoked with valid name then exit status is 0" {
-    run mkdir new_folder
+    # arrange
+    # local folder=$(mktemp --directory --dry-run)
+
+    # act
+    run mkdir "${folder}"
+
+    # assert
     assert_success
-    rmdir new_folder
+
+    # cleanup
+    # rmdir "${folder}"
+}
+
+@test "if the mkdir is invoked with valid name then the directory exists" {
+    # arrange
+    # local folder=$(mktemp --directory --dry-run)
+
+    # act
+    run mkdir "${folder}"
+
+    # assert
+    assert [ -d "${folder}" ]
+
+    # cleanup
+    # rmdir "${folder}"
 }
 
 @test "if the creating directory already exists then exit status will be 1" {
