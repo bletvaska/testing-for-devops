@@ -43,31 +43,42 @@ load libs/http.bash
 
 
 @test "when no rest api key provided then expect error message" {
-    run http https://parseapi.back4app.com/classes/movies/u9wuoyMaqE X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ
-    assert_output '{"error":"unauthorized"}'
+    http_get https://parseapi.back4app.com/classes/movies/u9wuoyMaqE \
+        X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ
+    assert_equal "${http_body}" '{"error":"unauthorized"}'
 }
 
 
 @test "when invalid keys are provided then status code is 401" {
-    http_query get https://parseapi.back4app.com/classes/movies/u9wuoyMaqE X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlXXXJ X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
+    http_get https://parseapi.back4app.com/classes/movies/u9wuoyMaqE \
+        X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlXXXJ \
+        X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
     assert_equal "${http_status_code}" 401
 }
 
 
 @test "when invalid keys are provided then expect error message" {
-    run http https://parseapi.back4app.com/classes/movies/u9wuoyMaqE X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlXXX X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
-    assert_output '{"error":"unauthorized"}'
+    http_get https://parseapi.back4app.com/classes/movies/u9wuoyMaqE \
+        X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlXXX \
+        X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
+    assert_equal "${http_body}" '{"error":"unauthorized"}'
 }
 
 
 @test "when valid credentials are provided then status code is 200" {
-    http_query get https://parseapi.back4app.com/classes/movies/u9wuoyMaqE X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
+    http_get https://parseapi.back4app.com/classes/movies/u9wuoyMaqE \
+        X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ \
+        X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
     assert_equal "${http_status_code}" 200
 }
 
 
 @test "when valid credentials are provided then response is json object" {
-    run http https://parseapi.back4app.com/classes/movies/u9wuoyMaqE X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
-    assert_output '{"objectId":"u9wuoyMaqE","title":"Dune","year":2021,"genres":["Sci-Fi","Adventure","Drama","Action"],"createdAt":"2021-11-04T13:59:15.547Z","updatedAt":"2022-11-17T06:53:40.640Z"}'
-}
+    expected='{"objectId":"u9wuoyMaqE","title":"Dune","year":2021,"genres":["Sci-Fi","Adventure","Drama","Action"],"createdAt":"2021-11-04T13:59:15.547Z","updatedAt":"2022-11-17T06:53:40.640Z"}'
 
+    http_get https://parseapi.back4app.com/classes/movies/u9wuoyMaqE \
+        X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ \
+        X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
+    assert_equal "${http_body}" "${expected}"
+
+}
