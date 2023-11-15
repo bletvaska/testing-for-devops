@@ -73,6 +73,9 @@ function http_query() {
     local method="${1:?Missing HTTP method.}"
     local url="${2:?Missing URL.}"
     local params="${@:?Missing parameters for making HTTP request.}"
+    echo $method
+    echo $url
+    echo $params
 
     response=$(http --print=hb "${@}")
 
@@ -102,6 +105,9 @@ function http_query() {
 function http_get() {
     local url="${1:?Missing URL.}"
     local params="${@:?Missing parameters for making HTTP request.}"
+    echo $url
+    echo $params
+    echo "--------------------------"
 
     http_query get "${url}" "${params}"
 }
