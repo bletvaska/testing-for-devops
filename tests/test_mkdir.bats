@@ -50,12 +50,12 @@ function teardown(){
     # rmdir "${folder}"
 }
 
-@test "if the creating directory already exists then exit status will be 1" {
+@test "if the directory already exists then exit status is 1" {
     run mkdir $(pwd)
     assert_failure
 }
 
-@test "if the creating directory already exists then expect error message" {
+@test "if the directory already exists then show error message" {
     run mkdir .
     assert_output "mkdir: cannot create directory ‘.’: File exists"
 }

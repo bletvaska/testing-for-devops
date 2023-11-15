@@ -60,7 +60,7 @@ function _get_body() {
 # Globals:
 #   http_status_code - HTTP status code of response
 #   http_headers - Headers of HTTP response
-#   http_body - Body HTTP response
+#   output - Body of HTTP response
 # Arguments:
 #   $1 - HTTP method (GET|POST|PUT|...)
 #   $2 - URL
@@ -78,11 +78,11 @@ function http_query() {
 
     http_status_code=$(_get_http_status "${response}")
     http_headers=$(_get_headers_as_json "${response}")
-    http_body=$(_get_body "${response}")
+    output=$(_get_body "${response}")
 
     export http_status_code
     export http_headers
-    export http_body
+    export output
 }
 
 

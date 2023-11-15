@@ -17,7 +17,7 @@ load libs/http.bash
 
 @test "when no credentials are provided then expect error message" {
     http_get "${BASE_URL}/classes/movies/"
-    assert_equal "${http_body}" '{"error":"unauthorized"}'
+    assert_output '{"error":"unauthorized"}'
 }
 
 
@@ -31,7 +31,7 @@ load libs/http.bash
 @test "when no parse app id is provided then expect error message" {
     http_get "${BASE_URL}/classes/movies/" \
         X-Parse-REST-API-Key:"${REST_API_KEY}"
-    assert_equal "${http_body}" '{"error":"unauthorized"}'
+    assert_output '{"error":"unauthorized"}'
 }
 
 
@@ -45,7 +45,7 @@ load libs/http.bash
 @test "when no rest api key provided then expect error message" {
     http_get "${BASE_URL}/classes/movies/" \
         X-Parse-Application-Id:"${APP_ID}"
-    assert_equal "${http_body}" '{"error":"unauthorized"}'
+    assert_output '{"error":"unauthorized"}'
 }
 
 
@@ -61,7 +61,7 @@ load libs/http.bash
     http_get "${BASE_URL}/classes/movies/" \
         X-Parse-Application-Id:invalid \
         X-Parse-REST-API-Key:invalid
-    assert_equal "${http_body}" '{"error":"unauthorized"}'
+    assert_output '{"error":"unauthorized"}'
 }
 
 
@@ -79,5 +79,5 @@ load libs/http.bash
     http_get "${BASE_URL}/classes/movies/u9wuoyMaqE" \
         X-Parse-Application-Id:"${APP_ID}" \
         X-Parse-REST-API-Key:"${REST_API_KEY}"
-    assert_equal "${http_body}" "${expected}"
+    assert_output "${expected}"
 }
