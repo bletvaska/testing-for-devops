@@ -51,7 +51,7 @@ function _get_headers_as_json() {
 function _get_body() {
    local response="${1:?Response object not set.}"
 
-   sed -nre 's/\r$//' -e '/^$/,$p' <<< "${response}"
+   sed -nre 's/\r$//' -e '/^$/,$p' <<< "${response}" | sed '1d'
 }
 
 
@@ -83,6 +83,27 @@ function http_query() {
     export http_status_code
     export http_headers
     export http_body
+}
+
+
+# Executes HTTP GET request
+#
+# Globals:
+#   http_status_code - HTTP status code of response
+#   http_headers - Headers of HTTP response
+#   http_body - Body HTTP response
+# Arguments:
+#   $1 - URL
+#   $2 - HTTP params
+# Returns:
+#   0 on success, non-zero on error.
+# Outputs:
+#   none
+function http_get() {
+    local url="${1:?Missing URL.}"
+    local params="${@:?Missing parameters for making HTTP request.}"
+
+    http_query get "${url}" "${params}"
 }
 
 
