@@ -107,14 +107,56 @@ function http_get() {
 }
 
 
+# Fail and display details if the expected and actual HTTP status codes do not
+# equal. Details include both headers.
+#
+# Globals:
+#   none
+# Arguments:
+#   $1 - expected HTTP status code
+# Returns:
+#   0 - values equal
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
 function assert_http_status_code() {
-    local status="${1}"
+    local expected="${1}"
 
-    if [[ $http_status_code != "$status" ]]; then
+    if [[ $http_status_code != "$expected" ]]; then
         batslib_print_kv_single_or_multi 8 \
-            'expected' "$status" \
+            'expected' "$expected" \
             'actual'   "$http_status_code" \
         | batslib_decorate 'HTTP status codes do not equal' \
+        | fail
+    fi
+}
+
+
+# Fail and display details if the expected and actual headers do not
+# equal. Details include both headers.
+#
+# Globals:
+#   none
+# Arguments:
+#   $1 - header name
+#   $2 - expected value
+# Returns:
+#   0 - values equal
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+function assert_http_header() {
+    local header="${1:?Missing header.}"
+    local expected="${2:?Missing value.}"
+
+    local actual
+    actual=$(jq --raw-output '."'"${header}"'"' <<< "${http_headers}")
+
+    if [[ "${actual}" != "${expected}" ]]; then
+        batslib_print_kv_single_or_multi 8 \
+            'expected' "$expected" \
+            'actual'   "$actual" \
+        | batslib_decorate "values of HTTP header '${header}' do not match" \
         | fail
     fi
 }

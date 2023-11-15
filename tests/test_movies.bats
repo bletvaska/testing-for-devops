@@ -11,7 +11,7 @@ load libs/http.bash
 
 @test "when no credentials are provided then status code is 401" {
     http_get "${BASE_URL}/classes/movies/"
-    assert_equal "${http_status_code}" 401
+    assert_http_status_code 401
 }
 
 
@@ -24,7 +24,7 @@ load libs/http.bash
 @test "when no parse app id is provided then status code is 401" {
     http_get "${BASE_URL}/classes/movies/" \
         X-Parse-REST-API-Key:"${REST_API_KEY}"
-    assert_equal "${http_status_code}" 401
+    assert_http_status_code 401
 }
 
 
@@ -38,7 +38,7 @@ load libs/http.bash
 @test "when no rest api key provided then status code is 403" {
     http_get "${BASE_URL}/classes/movies/" \
         X-Parse-Application-Id:"${APP_ID}"
-    assert_equal "${http_status_code}" 403
+    assert_http_status_code 403
 }
 
 
@@ -53,7 +53,7 @@ load libs/http.bash
     http_get "${BASE_URL}/classes/movies/" \
         X-Parse-Application-Id:invalid \
         X-Parse-REST-API-Key:invalid
-    assert_equal "${http_status_code}" 401
+    assert_http_status_code 401
 }
 
 
@@ -69,7 +69,7 @@ load libs/http.bash
     http_get "${BASE_URL}/classes/movies/" \
         X-Parse-Application-Id:"${APP_ID}" \
         X-Parse-REST-API-Key:"${REST_API_KEY}"
-    assert_equal "${http_status_code}" 200
+    assert_http_status_code 200
 }
 
 
