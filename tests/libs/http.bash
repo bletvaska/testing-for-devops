@@ -5,6 +5,9 @@
 # To get the response object, use HTTPie in the form:
 #
 # $ http --print=hb http://pie.dev/get
+#
+# Created by (c)mirek 2023
+# http://bletvaska.github.io
 
 
 # Return the HTTP status code of HTTP response.
