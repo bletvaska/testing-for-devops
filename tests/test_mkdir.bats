@@ -7,6 +7,7 @@ set -o nounset
 load libs/bats-support/load
 load libs/bats-assert/load
 
+
 # fixtures
 function setup(){
     folder=$(mktemp --directory --dry-run)
