@@ -82,7 +82,7 @@ function http_query() {
     http_status_code=$(_get_http_status "${response}")
     http_headers=$(_get_headers_as_json "${response}")
     http_body=$(_get_body "${response}")
-    output=http_body
+    output=$http_body
 
     export http_status_code
     export http_headers

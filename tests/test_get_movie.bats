@@ -24,6 +24,11 @@ function setup_file(){
 }
 
 
-@test "WIP when movie is retrieved then http status code is 200" {
+@test "when movie is retrieved then http status code is 200" {
     assert_http_status_code 200
+}
+
+@test "when movie is retrieved then it's content should contain specific structure" {
+    printf "%s\n" "${output}"
+    assert_failure
 }
