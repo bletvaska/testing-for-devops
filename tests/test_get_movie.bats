@@ -29,6 +29,7 @@ function setup_file(){
 }
 
 @test "when movie is retrieved then it's content should contain specific structure" {
+    # run jsonschema "${BATS_TEST_DIRNAME}/resources/movie.schema.json" --instance <(printf "%s\n" "${output}")
     run check-jsonschema --schemafile "${BATS_TEST_DIRNAME}/resources/movie.schema.json" <(printf "%s\n" "${output}")
     assert_success
 }
