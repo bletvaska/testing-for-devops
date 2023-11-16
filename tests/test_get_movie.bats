@@ -29,6 +29,6 @@ function setup_file(){
 }
 
 @test "when movie is retrieved then it's content should contain specific structure" {
-    printf "%s\n" "${output}"
-    assert_failure
+    run check-jsonschema --schemafile tests/resources/movie.schema.json <(echo "${output}")
+    assert_success
 }
