@@ -38,7 +38,17 @@ function teardown_file() {
     assert_output "Python 3.11.1"
 }
 
-# @test "when executed then python package weather will be installed with version 1.2.0" {
-#     run docker container exec "${CONTAINER_NAME}" python --version
-#     assert_output "Python 3.11.1"
-# }
+@test "when started then weather has pid 1" {
+    run docker container exec "${CONTAINER_NAME}" pgrep weather
+    assert_output 1
+}
+
+@test "when started then weather package should be of version 2023.3" {
+    local info=$(docker container exec "${CONTAINER_NAME}" pip show weather)
+    run sed  -n 's/^Version: \(.*\)$/\1/p' <<< "${info}"
+    assert_output 2023.3
+}
+
+@test "success" {
+    true
+}

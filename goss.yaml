@@ -6,6 +6,7 @@ file:
     owner: mrilko
     group: mrilko
     filetype: directory
+    contains: []
   /usr/local/bin/python:
     exists: true
     mode: "0777"
@@ -14,6 +15,7 @@ file:
     group: root
     linked-to: python3
     filetype: symlink
+    contains: []
 port:
   tcp:8000:
     listening: true
@@ -28,11 +30,30 @@ user:
     - mrilko
     home: /home/mrilko
     shell: /bin/bash
+  whoami:
+    exists: false
 command:
+  --version:
+    exit-status: 2
+    stdout: []
+    stderr:
+    - 'sh: 0: Illegal option --'
+    timeout: 10000
   pwd:
     exit-status: 0
     stdout:
-    - \/app
+    - \/goss
+    stderr: []
+    timeout: 10000
+  python:
+    exit-status: 0
+    stdout: []
+    stderr: []
+    timeout: 10000
+  python --version:
+    exit-status: 0
+    stdout:
+    - Python 3.11.1
     stderr: []
     timeout: 10000
   python3 --version:
@@ -41,9 +62,23 @@ command:
     - Python 3.11.1
     stderr: []
     timeout: 1000
+  whoami:
+    exit-status: 0
+    stdout:
+    - mrilko
+    stderr: []
+    timeout: 10000
+process:
+  python:
+    running: true
+  weather:
+    running: true
+  xxx:
+    running: false
 http:
   http://localhost:8000:
     status: 200
     allow-insecure: false
     no-follow-redirects: false
     timeout: 2000
+    body: []

@@ -77,12 +77,18 @@ function http_query() {
     local url="${2:?Missing URL.}"
     local params=("${@}")
 
+    local response
     response=$(http --print=hb "${method}" "${url}" "${params[@]:2}")
 
     http_status_code=$(_get_http_status "${response}")
     http_headers=$(_get_headers_as_json "${response}")
     http_body=$(_get_body "${response}")
-    output=$http_body
+
+    #! Fixme: how to make exported variables readonly?
+    readonly http_status_code
+    readonly http_headers
+    readonly http_body
+    readonly output=$http_body
 
     export http_status_code
     export http_headers
