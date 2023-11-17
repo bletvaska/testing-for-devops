@@ -19,36 +19,30 @@ load libs/http.bash
 # remove created movie
 
 function setup_file() {
-    http_query post "${BASE_URL}/classes/movies/" \
-        X-Parse-Application-Id:"${APP_ID}" \
-        X-Parse-REST-API-Key:"${REST_API_KEY}" \
-        title="Killer" \
-        year:=2023 \
-        genres:='["Action", "Adventure"]'
+  http_query post "${BASE_URL}/classes/movies/" \
+    X-Parse-Application-Id:"${APP_ID}" \
+    X-Parse-REST-API-Key:"${REST_API_KEY}" \
+    title="Killer" \
+    year:=2023 \
+    genres:='["Action", "Adventure"]'
+
+  object_id=$(jq --raw-output .objectId <<< "${output}")
+  readonly object_id
 }
 
 
-# @test "failure" {
-#     echo "${http_status_code}"
-#     echo "${http_headers}"
-#     echo "${output}"
-#     false
-# }
-
-
 @test "when new movie was created then http status code is 201" {
-    assert_http_status_code 201
+  assert_http_status_code 201
 }
 
 
 @test "when new movie was created then content of response will be json" {
-    assert_http_header "Content-Type" "application/json; charset=utf-8"
+  assert_http_header "Content-Type" "application/json; charset=utf-8"
 }
 
 
 function teardown_file() {
-    local object_id=$(jq --raw-output .objectId <<< "${output}")
-    http_query delete "${BASE_URL}/classes/movies/${object_id}" \
-        X-Parse-Application-Id:"${APP_ID}" \
-        X-Parse-REST-API-Key:"${REST_API_KEY}"
+  http_query delete "${BASE_URL}/classes/movies/${object_id}" \
+    X-Parse-Application-Id:"${APP_ID}" \
+    X-Parse-REST-API-Key:"${REST_API_KEY}"
 }

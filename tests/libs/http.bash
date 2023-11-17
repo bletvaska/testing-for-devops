@@ -21,40 +21,40 @@
 # Outputs:
 #   STDOUT - HTTP status code
 function _get_http_status() {
-    local response="${1:?Response object not set.}"
+  local response="${1:?Response object not set.}"
 
-    readarray -t -d" " content <<< "${response}"
-    printf "%s" "${content[1]}"
+  readarray -t -d" " content <<< "${response}"
+  printf "%s" "${content[1]}"
 }
 
 
 # Return the headers of HTTP response as text.
 function _get_http_headers() {
-    local response="${1:?Response object not set.}"
+  local response="${1:?Response object not set.}"
 
-    sed -nre 's/\r$//' -e '2,/^$/p' <<< "${response}"
+  sed -nre 's/\r$//' -e '2,/^$/p' <<< "${response}"
 }
 
 
 # Return the headers of HTTP response as JSON object.
 function _get_headers_as_json() {
-   local response="${1:?Response object not set.}"
+  local response="${1:?Response object not set.}"
 
-   headers=$(_get_http_headers "${response}")
-   jq --slurp --raw-input \
-       '[split("\n")[:-1][]
-           | rtrimstr("\\r")
-           | split(": ")
-           | {(.[0]): .[1]} ]
-       | add' <<< "${headers}"
+  headers=$(_get_http_headers "${response}")
+  jq --slurp --raw-input \
+    '[split("\n")[:-1][]
+      | rtrimstr("\\r")
+      | split(": ")
+      | {(.[0]): .[1]} ]
+    | add' <<< "${headers}"
 }
 
 
 # Return the body of HTTP response only.
 function _get_body() {
-   local response="${1:?Response object not set.}"
+  local response="${1:?Response object not set.}"
 
-   sed -nre 's/\r$//' -e '/^$/,$p' <<< "${response}" | sed '1d'
+  sed -nre 's/\r$//' -e '/^$/,$p' <<< "${response}" | sed '1d'
 }
 
 
@@ -73,27 +73,22 @@ function _get_body() {
 # Outputs:
 #   none
 function http_query() {
-    local method="${1:?Missing HTTP method.}"
-    local url="${2:?Missing URL.}"
-    local params=("${@}")
+  local method="${1:?Missing HTTP method.}"
+  local url="${2:?Missing URL.}"
+  local params=("${@}")
 
-    local response
-    response=$(http --print=hb "${method}" "${url}" "${params[@]:2}")
+  local response
+  response=$(http --print=hb "${method}" "${url}" "${params[@]:2}")
 
-    http_status_code=$(_get_http_status "${response}")
-    http_headers=$(_get_headers_as_json "${response}")
-    http_body=$(_get_body "${response}")
+  http_status_code=$(_get_http_status "${response}")
+  http_headers=$(_get_headers_as_json "${response}")
+  http_body=$(_get_body "${response}")
+  output=$http_body
 
-    #! Fixme: how to make exported variables readonly?
-    readonly http_status_code
-    readonly http_headers
-    readonly http_body
-    readonly output=$http_body
-
-    export http_status_code
-    export http_headers
-    export http_body
-    export output
+  export http_status_code
+  export http_headers
+  export http_body
+  export output
 }
 
 
@@ -111,10 +106,10 @@ function http_query() {
 # Outputs:
 #   none
 function http_get() {
-    local url="${1:?Missing URL.}"
-    local params=("${@}")
+  local url="${1:?Missing URL.}"
+  local params=("${@}")
 
-    http_query get "${url}" "${params[@]:1}"
+  http_query get "${url}" "${params[@]:1}"
 }
 
 
@@ -131,15 +126,15 @@ function http_get() {
 # Outputs:
 #   STDERR - details, on failure
 function assert_http_status_code() {
-    local expected="${1}"
+  local expected="${1}"
 
-    if [[ $http_status_code != "$expected" ]]; then
-        batslib_print_kv_single_or_multi 8 \
-            'expected' "$expected" \
-            'actual'   "$http_status_code" \
-        | batslib_decorate 'HTTP status codes do not equal' \
-        | fail
-    fi
+  if [[ $http_status_code != "$expected" ]]; then
+    batslib_print_kv_single_or_multi 8 \
+      'expected' "${expected}" \
+      'actual'   "${http_status_code}" \
+    | batslib_decorate 'HTTP status codes do not equal' \
+    | fail
+  fi
 }
 
 
@@ -157,17 +152,17 @@ function assert_http_status_code() {
 # Outputs:
 #   STDERR - details, on failure
 function assert_http_header() {
-    local header="${1:?Missing header.}"
-    local expected="${2:?Missing value.}"
+  local header="${1:?Missing header.}"
+  local expected="${2:?Missing value.}"
 
-    local actual
-    actual=$(jq --raw-output '."'"${header}"'"' <<< "${http_headers}")
+  local actual
+  actual=$(jq --raw-output '."'"${header}"'"' <<< "${http_headers}")
 
-    if [[ "${actual}" != "${expected}" ]]; then
-        batslib_print_kv_single_or_multi 8 \
-            'expected' "$expected" \
-            'actual'   "$actual" \
-        | batslib_decorate "values of HTTP header '${header}' do not match" \
-        | fail
-    fi
+  if [[ "${actual}" != "${expected}" ]]; then
+    batslib_print_kv_single_or_multi 8 \
+      'expected' "${expected}" \
+      'actual'   "${actual}" \
+    | batslib_decorate "values of HTTP header '${header}' do not match" \
+    | fail
+  fi
 }
