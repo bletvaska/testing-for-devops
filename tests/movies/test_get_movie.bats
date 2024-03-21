@@ -8,6 +8,7 @@ load ../libs/http.bash
 
 # global variables
 readonly MOVIE_ID="QMZ5f7GuXk"
+readonly MOVIE_SCHEMA="movie.schema.json"
 
 function setup_file() {
     http_get "https://${BASE_URL}/classes/movies/${MOVIE_ID}" \
@@ -26,8 +27,6 @@ function setup_file() {
 }
 
 
-@test "when movie is retrieved, then it's content will be of specific structure" {
-    # skip "@stano will do it"
-    echo "${http_body}"
-    false
+@test "WIP: when movie is retrieved, then it's content will be of specific structure" {
+    jsonschema "${MOVIE_SCHEMA}" --instance <(printf "%s\n" "${http_body}")
 }
