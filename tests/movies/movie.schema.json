@@ -38,7 +38,8 @@
                     "Drama",
                     "Horror",
                     "Comedy",
-                    "Romance"
+                    "Romance",
+                    "Thriller"
                 ]
             },
             "minItems": 1,

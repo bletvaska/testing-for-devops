@@ -27,5 +27,7 @@ function setup_file() {
 
 
 @test "when movie is retrieved, then it's content will be of specific structure" {
-    skip "@stano will do it"
+    # skip "@stano will do it"
+    echo "${http_body}"
+    false
 }
