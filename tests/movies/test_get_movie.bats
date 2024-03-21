@@ -6,10 +6,14 @@ load ../libs/bats-assert/load
 load ../libs/http.bash
 
 
+# global variables
+readonly MOVIE_ID="QMZ5f7GuXk"
+
+
 function setup_file() {
-    http_get "https://parseapi.back4app.com/classes/movies/QMZ5f7GuXk" \
-        "X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ" \
-        "X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk"
+    http_get "https://${BASE_URL}/classes/movies/${MOVIE_ID}" \
+        "X-Parse-Application-Id:${APPID}" \
+        "X-Parse-REST-API-Key:${REST_API_KEY}"
 }
 
 
