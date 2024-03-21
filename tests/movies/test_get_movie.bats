@@ -9,7 +9,6 @@ load ../libs/http.bash
 # global variables
 readonly MOVIE_ID="QMZ5f7GuXk"
 
-
 function setup_file() {
     http_get "https://${BASE_URL}/classes/movies/${MOVIE_ID}" \
         "X-Parse-Application-Id:${APPID}" \
