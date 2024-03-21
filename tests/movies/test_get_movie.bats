@@ -8,7 +8,7 @@ load ../libs/http.bash
 
 # global variables
 readonly MOVIE_ID="QMZ5f7GuXk"
-readonly MOVIE_SCHEMA="movie.schema.json"
+readonly MOVIE_SCHEMA="${BATS_TEST_DIRNAME}/movie.schema.json"
 
 function setup_file() {
     http_get "https://${BASE_URL}/classes/movies/${MOVIE_ID}" \
