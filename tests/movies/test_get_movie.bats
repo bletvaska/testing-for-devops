@@ -23,7 +23,8 @@ function setup_file() {
 
 
 @test "when movie is retrieved, then http status is 200" {
-    assert_http_status_code 200
+    local expected=200
+    assert_http_status_code "${expected}"
 }
 
 

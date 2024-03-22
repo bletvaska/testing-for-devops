@@ -1,0 +1,53 @@
+file:
+  /app:
+    exists: true
+    mode: "0755"
+    size: 4096
+    owner: mrilko
+    group: mrilko
+    filetype: directory
+    contains: []
+port:
+  tcp:8000:
+    listening: true
+    ip:
+    - 0.0.0.0
+user:
+  mrilko:
+    exists: true
+    uid: 1000
+    gid: 1000
+    groups:
+    - mrilko
+    home: /home/mrilko
+    shell: /bin/bash
+command:
+  pwd:
+    exit-status: 0
+    stdout:
+    - \/app
+  python --version:
+    exit-status: 0
+    stdout:
+    - Python 3.11.1
+    stderr: []
+    timeout: 10000
+  whoami:
+    exit-status: 0
+    stdout:
+    - mrilko
+    stderr: []
+    timeout: 10000
+process:
+  weather:
+    running: true
+http:
+  http://localhost:8000:
+    status: 200
+    allow-insecure: false
+    no-follow-redirects: false
+    timeout: 5000
+    body: []
+  http://localhost:8000/api/health:
+    status: 200
+    timeout: 5000

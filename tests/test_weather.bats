@@ -41,6 +41,22 @@ function teardown_file() {
 }
 
 @test "when started, then first process, which will be executed, is python weather" {
-    run docker container exec -it "${CONTAINER_NAME}" ps --pid 1 -o cmd
-    assert_output "weather"
+    # arrange
+    local expected="/usr/local/bin/python /usr/local/bin/weather"
+    local cmd="ps --pid 1 -o cmd"
+
+    # act
+    run docker container exec -it "${CONTAINER_NAME}" "${cmd}"
+
+    # assert
+    assert_output "${expected}"
 }
+
+@test "vulnerability testing" {
+    run grype "${IMAGE_NAME}" --fail-on high --quiet
+    assert_success
+}
+
+# @test "goss testing" {
+#     dgoss run 
+# }
