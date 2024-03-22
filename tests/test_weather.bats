@@ -41,6 +41,6 @@ function teardown_file() {
 }
 
 @test "when started, then first process, which will be executed, is python weather" {
-    run docker container exec -it "${CONTAINER_NAME}" ps --pid 1
-    assert_output --partial "weather"
+    run docker container exec -it "${CONTAINER_NAME}" ps --pid 1 -o cmd
+    assert_output "weather"
 }
