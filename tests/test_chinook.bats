@@ -20,7 +20,7 @@ function sql_query() {
     query="SELECT COUNT(*) FROM genre"
 
     # Act
-    run sql_query #"${query}"
+    run sql_query "${query}"
 
     # Assert
     assert_output "${expected}"
