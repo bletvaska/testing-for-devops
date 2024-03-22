@@ -39,3 +39,8 @@ function teardown_file() {
     run docker container exec -it "${CONTAINER_NAME}" pip show weather
     assert_output --partial "Version: 2023.3"
 }
+
+@test "when started, then first process, which will be executed, is python weather" {
+    run docker container exec -it "${CONTAINER_NAME}" ps --pid 1
+    assert_output --partial "weather"
+}
