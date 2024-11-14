@@ -37,3 +37,9 @@ function setup_file() {
   run jq --exit-status  'has("createdAt")' <<< "${output}"
   assert_success
 }
+
+
+@test "when movie is retrieved, then it should match json schema" {
+  run jsonschema movie.schema.json --instance <(printf "%s\n" "${output}")
+  assert_success
+}
