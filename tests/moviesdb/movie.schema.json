@@ -1,0 +1,48 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Movie Database",
+    "description": "Single schema for single movie entry",
+    "type": "object",
+    "properties": {
+      "objectId": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "year": {
+        "type": "integer",
+        "minimum": 1880
+      },
+      "genres": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "Sci-Fi",
+            "Adventure",
+            "Drama",
+            "Action",
+            "Horror",
+            "Thriller"
+          ]
+        }
+      },
+      "createdAt": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$"
+      },
+      "updatedAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": [
+      "createdAt",
+      "updatedAt",
+      "genres",
+      "objectId",
+      "title",
+      "year"
+    ]
+  }
