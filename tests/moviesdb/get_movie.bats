@@ -10,9 +10,9 @@ load "../libs/http.bash"
 
 # fixtures
 function setup_file() {
-  http_get "https://parseapi.back4app.com/classes/movies/u9wuoyMaqE" \
-    X-Parse-Application-Id:"axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ" \
-    X-Parse-REST-API-Key:"sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk"
+  http_get "${BASE_URL:-localhost}/classes/movies/u9wuoyMaqE" \
+    X-Parse-Application-Id:"${APPLICATION_ID:-none}" \
+    X-Parse-REST-API-Key:"${REST_API_KEY:-none}"
 }
 
 
