@@ -13,3 +13,12 @@ load "../libs/http.bash"
 
     assert_http_status_code 200
 }
+
+
+@test "when the movie is retrieved, then content type will by application/json" {
+  http_get "https://parseapi.back4app.com/classes/movies/u9wuoyMaqE" \
+    X-Parse-Application-Id:"axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ" \
+    X-Parse-REST-API-Key:"sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk"
+
+    assert_http_header "Content-Type" "application/json; charset=utf-8"
+}
