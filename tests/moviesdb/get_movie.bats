@@ -25,3 +25,15 @@ function setup_file() {
 @test "when the movie is retrieved, then content type will by application/json" {
     assert_http_header "Content-Type" "application/json; charset=utf-8"
 }
+
+
+@test "when the movie is retrieved, then it's content should container key objectId" {
+  run jq --exit-status  'has("objectId")' <<< "${output}"
+  assert_success
+}
+
+
+@test "when the movie is retrieved, then it's content should container key createdAt" {
+  run jq --exit-status  'has("createdAt")' <<< "${output}"
+  assert_success
+}
