@@ -5,12 +5,13 @@ load "../libs/bats-support/load.bash"
 load "../libs/bats-assert/load.bash"
 load "../libs/http.bash"
 
-# globals
 
+# globals
+readonly MOVIE_ID=u9wuoyMaqE
 
 # fixtures
 function setup_file() {
-  http_get "${BASE_URL:-localhost}/classes/movies/u9wuoyMaqE" \
+  http_get "${BASE_URL:-localhost}/classes/movies/${MOVIE_ID}" \
     X-Parse-Application-Id:"${APPLICATION_ID:-none}" \
     X-Parse-REST-API-Key:"${REST_API_KEY:-none}"
 }
