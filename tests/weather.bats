@@ -10,6 +10,16 @@ readonly CONTAINER_NAME='weather'
 
 
 # fixtures
+function setup_file() {
+  docker container run -it \
+    --name "${CONTAINER_NAME}" \
+    --detach \
+    "${IMAGE_NAME}:latest"
+}
+
+function teardown_file() {
+  docker container stop "${CONTAINER_NAME}"
+}
 
 
 # tests
@@ -18,19 +28,20 @@ readonly CONTAINER_NAME='weather'
   local EXPECTED="/app"
 
   # act
-  run docker container run --rm -it --name "${CONTAINER_NAME}" "${IMAGE_NAME}:latest" pwd
+  run docker container exec -it "${CONTAINER_NAME}" pwd
 
   # assert
   assert_output "${EXPECTED}"
   # assert_equal "${PWD}" "/app"
 }
 
+
 @test "when started then user is mrilko" {
   # arrange
   local EXPECTED="mrilko"
 
   # act
-  run docker container run --rm -it --name "${CONTAINER_NAME}" "${IMAGE_NAME}:latest" whoami
+  run docker container exec -it "${CONTAINER_NAME}" whoami
 
   # assert
   assert_output "${EXPECTED}"
@@ -43,9 +54,8 @@ readonly CONTAINER_NAME='weather'
   local EXPECTED="Python 3.11.10"
 
   # act
-  run docker container run --rm -it --name "${CONTAINER_NAME}" "${IMAGE_NAME}:latest" python --version
+  run docker container exec -it "${CONTAINER_NAME}" python --version
 
   # assert
   assert_output "${EXPECTED}"
-  # assert_equal "${USER}" "${EXPECTED}"
 }
