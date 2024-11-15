@@ -23,7 +23,7 @@ function setup_file() {
 
 
 @test "when the movie is retrieved, then content type will by application/json" {
-    assert_http_header "Content-Type" "application/json; charset=utf-8"
+  assert_http_header "Content-Type" "application/json; charset=utf-8"
 }
 
 
