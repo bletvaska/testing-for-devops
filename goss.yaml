@@ -1,7 +1,6 @@
 file:
     /app:
-        exists: false
-        contents: []
+        exists: true
 port:
     tcp:8000:
         listening: true
@@ -9,49 +8,33 @@ port:
             - 0.0.0.0
 user:
     mrilko:
-        exists: false
+        exists: true
 command:
     pwd:
         exit-status: 0
         stdout:
-            - \/goss
+            - \/app
         stderr: ""
-        timeout: 10000
+        timeout: 1000
     python --version:
         exit-status: 0
         stdout:
             - Python 3.11.10
         stderr: ""
-        timeout: 10000
+        timeout: 1000
     whoami:
         exit-status: 0
         stdout:
-            - pythonista
+            - mrilko
         stderr: ""
-        timeout: 10000
+        timeout: 1000
 process:
-    pwd:
-        running: false
     python:
         running: true
-    weather:
-        running: false
 http:
     http://localhost:8000:
         status: 200
-        allow-insecure: false
-        no-follow-redirects: false
         timeout: 5000
-        body: []
-    http://localhost:8000/health:
-        status: 404
-        allow-insecure: false
-        no-follow-redirects: false
-        timeout: 5000
-        body: []
     http://localhost:8000/healthz:
         status: 200
-        allow-insecure: false
-        no-follow-redirects: false
         timeout: 5000
-        body: []
