@@ -23,3 +23,13 @@ load "libs/http.bash"
 
     assert_http_header "Content-Type" "application/json; charset=utf-8"    
 }
+
+
+@test "when movie is retrieved, the it's content should contain specific structure" {
+    http_get "https://parseapi.back4app.com/classes/movies/u9wuoyMaqE" \
+        X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ \
+        X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
+
+    run jq --exit-status 'has("objectId")' <<< "${output}"
+    assert_success
+}
