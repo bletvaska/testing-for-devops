@@ -8,8 +8,16 @@ load "libs/bats-assert/load.bash"
 # globals
 readonly CMD=/usr/bin/cat
 
-# if the command will be executed with non existent file, then exit code will be 1
-@test "first test" {
-    run cat file.doesnt.exist
-    assert [ "${status}" -eq 1 ]
+
+@test "if file doesn't exist then exit status is 1" {
+    # arrange
+    local file
+    file=$(mktemp --dry-run)
+
+    # act
+    run "${CMD}" "${file}"
+
+    # assert
+    assert_failure
+    assert_output "${CMD}: ${file}: No such file or directory"
 }
