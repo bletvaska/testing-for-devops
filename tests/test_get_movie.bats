@@ -1,5 +1,8 @@
 #!/usr/bin/env bats
 
+if [[ -f "${BATS_TEST_DIRNAME}/movies.env" ]]; then
+   source "${BATS_TEST_DIRNAME}/movies.env"
+fi
 
 # load modules/libraries
 load "libs/bats-support/load.bash"
@@ -8,9 +11,9 @@ load "libs/http.bash"
 
 
 function setup_file() {
-    http_get "https://parseapi.back4app.com/classes/movies/u9wuoyMaqE" \
-        X-Parse-Application-Id:axACcyh0MTO3z42rUN8vFHfyAgE22VRjd3IJOwlJ \
-        X-Parse-REST-API-Key:sQAPUPRNJg2GpZ9f0fXZaALSvekT7N2KmdM8kBWk
+    http_get "${BASE_URL}/movies/u9wuoyMaqE" \
+        X-Parse-Application-Id:"${APP_ID}" \
+        X-Parse-REST-API-Key:"${REST_API_KEY}"
 }
 
 
