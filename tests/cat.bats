@@ -19,5 +19,18 @@ readonly CMD=/usr/bin/cat
 
     # assert
     assert_failure
+}
+
+
+@test "if file doesn't exist then show error message" {
+    # arrange
+    local file
+    file=$(mktemp --dry-run)
+
+    # act
+    run "${CMD}" "${file}"
+
+    # assert
     assert_output "${CMD}: ${file}: No such file or directory"
 }
+
