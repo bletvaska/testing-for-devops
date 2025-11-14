@@ -11,6 +11,7 @@ load "libs/http.bash"
 
 # globals
 readonly MOVIE_ID="u9wuoyMaqE"
+readonly MOVIE_JSON_SCHEMA="movie.schema.json"
 
 # aliases
 alias hurl="docker container run --rm -it --volume .:/data --workdir /data ghcr.io/orange-opensource/hurl:latest"
@@ -46,6 +47,15 @@ function setup_file() {
     # act
     docker container run --rm -it --volume .:/data --workdir /data ghcr.io/orange-opensource/hurl:latest --test --variables-file movies.env  get_movie.hurl
 
+    # assert
+    assert_success
+}
+
+
+@test "WIP when movie is retrieved, then it's json information should be valid" {
+    # act
+    run jsonschema "${MOVIE_JSON_SCHEMA}" --instance <(printf "%s" "$output")  
+    
     # assert
     assert_success
 }
