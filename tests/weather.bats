@@ -13,19 +13,33 @@ readonly IMAGE="bletvaska/weather:latest"
 readonly CONTAINER_NAME="weather"
 
 
+function setup_file() {
+    docker image pull "${IMAGE}"
+    docker container run --rm -it \
+        --detach \
+        --name "${CONTAINER_NAME}" \
+        "${IMAGE}"
+}
+
+function teardown_file() {
+    docker container stop "${CONTAINER_NAME}"
+    docker image rm "${IMAGE}"
+}
+
+
 @test "when started, then username is mrilko" {
-    run docker container run bletvaska/weather:latest whoami
+    run docker container run "${IMAGE}" whoami
     assert_output "mrilko"
 }
 
 
 @test "when started, then Python version is 3.11" {
-    run docker container run bletvaska/weather:latest python --version
+    run docker container run "${IMAGE}" python --version
     assert_output --partial "Python 3.11." 
 }
 
 
 @test "when started, then current working directory is /app" {
-    run docker container run bletvaska/weather:latest pwd
+    run docker container run "${IMAGE}" pwd
     assert_output "/app" 
 }
