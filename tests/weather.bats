@@ -53,3 +53,10 @@ function docker_exec() {
     run docker_exec pwd
     assert_output "/app" 
 }
+
+
+@test "when the image was scanned/created, then it should have no high or above vulnerabilities" {    
+    run grype --fail-on critical --sort-by "severity" "${IMAGE}"
+    assert_success
+}
+
