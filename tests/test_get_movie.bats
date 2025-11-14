@@ -11,7 +11,7 @@ load "libs/http.bash"
 
 # globals
 readonly MOVIE_ID="u9wuoyMaqE"
-readonly MOVIE_JSON_SCHEMA="movie.schema.json"
+readonly MOVIE_JSON_SCHEMA="${BATS_TEST_DIRNAME}/assets/movie.schema.json"
 
 # aliases
 alias hurl="docker container run --rm -it --volume .:/data --workdir /data ghcr.io/orange-opensource/hurl:latest"
