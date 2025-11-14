@@ -13,8 +13,9 @@ readonly IMAGE="bletvaska/weather:latest"
 readonly CONTAINER_NAME="weather"
 
 
+# test fixtures
 function setup_file() {
-    docker image pull "${IMAGE}"
+    # docker image pull "${IMAGE}"
     docker container run --rm -it \
         --detach \
         --name "${CONTAINER_NAME}" \
@@ -23,23 +24,27 @@ function setup_file() {
 
 function teardown_file() {
     docker container stop "${CONTAINER_NAME}"
-    docker image rm "${IMAGE}"
+    # docker image rm "${IMAGE}"
 }
 
+function docker_exec() {
+    docker container exec "${CONTAINER_NAME}" "${@}"
+}
 
+# tests
 @test "when started, then username is mrilko" {
-    run docker container run "${IMAGE}" whoami
+    run docker_exec whoami
     assert_output "mrilko"
 }
 
 
 @test "when started, then Python version is 3.11" {
-    run docker container run "${IMAGE}" python --version
+    run docker_exec python --version
     assert_output --partial "Python 3.11." 
 }
 
 
 @test "when started, then current working directory is /app" {
-    run docker container run "${IMAGE}" pwd
+    run docker_exec pwd
     assert_output "/app" 
 }
