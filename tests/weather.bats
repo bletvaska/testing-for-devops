@@ -33,8 +33,13 @@ function docker_exec() {
 
 # tests
 @test "when started, then username is mrilko" {
-    run docker_exec whoami
-    assert_output "mrilko"
+    # arrange
+    local expected="mrilko"
+    local cmd="whoami"
+
+    # act and assert
+    run docker_exec "${cmd}"
+    assert_output "${expected}"
 }
 
 
